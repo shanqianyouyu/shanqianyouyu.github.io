@@ -1,0 +1,418 @@
+
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>寒假答辩之基于Java的聊天工具 | Chase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Chase">
+    
+    <meta name="description" content="前言：Java课上了解了socket就想写一个聊天工具，寒假就写了这个，感觉还挺有意思的。
+
+
+
+开发工具：Eclipse IDE(4.9.0)
+jdk: 1.8.0_181
+
+
+
+1. 界面&amp;nbsp;&amp;nbsp;利用Java swing的组件，配合eclipse拖拽完成的。感觉不太好用，组件什么">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Chase" title="Chase"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chase">Chase</a></h1>
+				<h2 class="blog-motto">逆袭者不矫情。那些悄悄变厉害的人，都在偷偷对自己下狠手。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:oj.ctgu.work">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/04/14/plea/" title="寒假答辩之基于Java的聊天工具" itemprop="url">寒假答辩之基于Java的聊天工具</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://oj.ctgu.work" title="Chase">Chase</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2019-04-14T03:30:50.000Z" itemprop="datePublished">2019-04-14</time>
+    Updated:<time datetime="2019-04-14T07:40:06.793Z" itemprop="dateModified">2019-04-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-number">1.</span> <span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-number">3.</span> <span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-number">5.</span> <span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-number">6.</span> <span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-后续"><span class="toc-number">7.</span> <span class="toc-text">7. 后续</span></a></li></ol>
+		</div>
+		
+		<blockquote>
+<p>前言：Java课上了解了socket就想写一个聊天工具，寒假就写了这个，感觉还挺有意思的。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>开发工具：Eclipse IDE(4.9.0)</li>
+<li>jdk: 1.8.0_181</li>
+</ul>
+</blockquote>
+<blockquote>
+<h2 id="1-界面"><a href="#1-界面" class="headerlink" title="1. 界面"></a>1. 界面</h2><p>&nbsp;&nbsp;利用Java swing的组件，配合eclipse拖拽完成的。感觉不太好用，组件什么使用起来都不太方便，最重要的是不好看。后来是在网上找了一个皮肤包导进去才好看了那么一点，Java swing要是可以嵌套css或者有像css那样美化的东西就好了。</p>
+</blockquote>
+<ul>
+<li>登录界面: <img src="/images/plea/login.png" alt="图片"></li>
+<li>注册界面: <img src="/images/plea/register.png" alt="图片"></li>
+<li>好友列表: <img src="/images/plea/friendlist.png" alt="图片"></li>
+<li>信息: <img src="/images/plea/info.png" alt="图片"></li>
+<li>查找: <img src="/images/plea/seek.png" alt="图片"></li>
+<li>聊天窗口: <img src="/images/plea/chatframe.png" alt="图片"></li>
+</ul>
+<blockquote>
+<h2 id="2-服务器"><a href="#2-服务器" class="headerlink" title="2. 服务器"></a>2. 服务器</h2><blockquote>
+<h3 id="2-1-登录服务器"><a href="#2-1-登录服务器" class="headerlink" title="2.1 登录服务器"></a>2.1 登录服务器</h3><p>&nbsp;&nbsp;可以接收处理客户端的请求。</p>
+<blockquote>
+<ul>
+<li>更新好友列表</li>
+<li>更新用户在线状态</li>
+<li>个人资料更新</li>
+<li>下线</li>
+</ul>
+</blockquote>
+<h3 id="2-2-注册服务器"><a href="#2-2-注册服务器" class="headerlink" title="2.2 注册服务器"></a>2.2 注册服务器</h3><blockquote>
+<ul>
+<li>接受注册请求</li>
+</ul>
+</blockquote>
+<h3 id="2-3-消息转发服务器"><a href="#2-3-消息转发服务器" class="headerlink" title="2.3 消息转发服务器"></a>2.3 消息转发服务器</h3><blockquote>
+<ul>
+<li>处理消息转发</li>
+<li>处理心跳包，更新用户的IP</li>
+</ul>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="3-架构"><a href="#3-架构" class="headerlink" title="3. 架构"></a>3. 架构</h2><ul>
+<li>传统的浏览器/服务器架构<blockquote>
+<p><img src="/images/plea/bs.png" alt="图片"></p>
+</blockquote>
+</li>
+<li>我的聊天软件架构<blockquote>
+<p><img src="/images/plea/cs.png" alt="图片"></p>
+</blockquote>
+</li>
+</ul>
+<p>数据库的设计</p>
+<blockquote>
+<p>两张表<br>1.用户信息表<br>2.好友信息表</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="4-业务逻辑"><a href="#4-业务逻辑" class="headerlink" title="4. 业务逻辑"></a>4. 业务逻辑</h2><blockquote>
+<p>-登录流程：<img src="/images/plea/loginonline.png" alt="图片"></p>
+</blockquote>
+<blockquote>
+<p>-在线状态: <img src="/images/plea/online.png" alt="图片"></p>
+</blockquote>
+<blockquote>
+<p>-在线聊天: <img src="/images/plea/chatonline.png" alt="图片"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="5-TCP-UDP，Socket"><a href="#5-TCP-UDP，Socket" class="headerlink" title="5. TCP,UDP，Socket"></a>5. TCP,UDP，Socket</h2><blockquote>
+<p>TCP</p>
+<blockquote>
+<p>持续稳定，面向连接，传递的消息不能过大</p>
+</blockquote>
+<p>UDP</p>
+<blockquote>
+<p>无连接，</p>
+</blockquote>
+<p>Socket</p>
+<blockquote>
+<p>网络编程</p>
+</blockquote>
+<p>对于Socket与TCP,UDP的关系是怎么样的呢？我之前一直以为是TCP,UDP是基于Socket编写的，后来查资料得知：</p>
+<blockquote>
+<p>TCP/IP只是一个协议栈，就像操作系统的运行机制一样，必须要具体实现，同时还要提供对外的操作接口。就像操作系统会提供标准的编程接口，比如Win32编程接口一样，TCP/IP也必须对外提供编程接口，这就是Socket编程接口。socket跟TCP/IP并没有必然的联系。Socket编程接口在设计的时候，就希望也能适应其他的网络协议。所以，socket的出现只是可以更方便的使用TCP/IP协议栈而已，其对TCP/IP进行了抽象，形成了几个最基本的函数接口。比如create，listen，accept，connect，read和write等等。</p>
+</blockquote>
+<p>前人已经设计好了TCP/IP协议，要是让我们直接用实在是太麻烦了，就有了socket。<b>socket只是一组接口</b>，方便我们使用TCP/IP协议。</p>
+<p><b>服务器的一个端口是可以处理多个tcp连接的。</b>这个还困扰了我很久，因为连接登录服务器是要利用服务器端的端口，我开始以为一个TCP连接会占用一个端口，那么多个用户的连接该如何处理，一个个的分配端口是不够用的，这当中的并发问题又该如何处理呢，原来一个服务器的一个端口是可以处理多个TCP连接的，为了区别不同的连接正好还用到了socket套接字。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="6-并发"><a href="#6-并发" class="headerlink" title="6. 并发"></a>6. 并发</h2><blockquote>
+<p>为了优化一个并发问题，特地去了解了一下线程池，来处理并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPMessageServer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">&gt;&gt; </span><br><span class="line">&gt;&gt; 	<span class="keyword">private</span> DatagramPacket packet = <span class="keyword">null</span>;</span><br><span class="line">&gt;&gt; </span><br><span class="line">&gt;&gt; 	<span class="function"><span class="keyword">public</span> <span class="title">UDPMessageServer</span><span class="params">(DatagramPacket packet)</span> </span>&#123;</span><br><span class="line">&gt;&gt; 		<span class="keyword">this</span>.packet = packet;</span><br><span class="line">&gt;&gt; 	&#125;</span><br><span class="line">&gt;&gt;     <span class="keyword">private</span> <span class="keyword">static</span> DatagramSocket datagramSocket = <span class="keyword">null</span>;</span><br><span class="line">&gt;&gt; </span><br><span class="line">&gt;&gt;         <span class="comment">// 启动服务器</span></span><br><span class="line">&gt;&gt;         <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">openServer</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">&gt;&gt; </span><br><span class="line">&gt;&gt;             datagramSocket = <span class="keyword">new</span> DatagramSocket(<span class="number">4003</span>);<span class="comment">// 4003端口</span></span><br><span class="line">&gt;&gt;             <span class="comment">// 制作线程池</span></span><br><span class="line">&gt;&gt;             ExecutorService execute = Executors.newFixedThreadPool(<span class="number">1000</span>);</span><br><span class="line">&gt;&gt;             <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">&gt;&gt;                 <span class="comment">// 等待客户端的数据</span></span><br><span class="line">&gt;&gt;                 <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">10</span>];</span><br><span class="line">&gt;&gt;                 DatagramPacket datagramPacket = <span class="keyword">new</span> DatagramPacket(b, b.length);</span><br><span class="line">&gt;&gt;                 datagramSocket.receive(datagramPacket);</span><br><span class="line">&gt;&gt;                 <span class="comment">////////////////////////// ///////////////////</span></span><br><span class="line">&gt;&gt; </span><br><span class="line">&gt;&gt;                 <span class="comment">// 数据一到手，立马建立一个线程处理</span></span><br><span class="line">&gt;&gt;                 execute.execute(<span class="keyword">new</span> UDPMessageServer(datagramPacket));</span><br><span class="line">&gt;&gt; </span><br><span class="line">&gt;&gt;             &#125;</span><br><span class="line">&gt;&gt;         &#125;</span><br><span class="line">&gt;&gt; &#125;</span><br><span class="line">&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="7-后续"><a href="#7-后续" class="headerlink" title="7. 后续"></a>7. 后续</h2><blockquote>
+<ul>
+<li>其实是有很多地方是有问题的，bug就不一一列举了，等下次有时间了，可以二次开发一下。</li>
+<li>这个聊天目前还不能用，我已经找到问题所在了，写之前一定要理清楚架构什么的。</li>
+<li>加一个多人聊天。</li>
+<li>C/S与B/S写起来，思路上是大同小异，但是同样的功能C/S端学起来要麻烦一些。都要归功与tomcat的作用。</li>
+</ul>
+</blockquote>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/项目/">项目</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://oj.ctgu.work/2019/04/14/plea/" data-title="寒假答辩之基于Java的聊天工具 | Chase" data-tsina class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/04/14/hello-Hexo/" title="hello,Hexo">
+ <strong>NEXT:</strong><br> 
+ <span>hello,Hexo
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-number">1.</span> <span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-number">3.</span> <span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-number">5.</span> <span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-number">6.</span> <span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-后续"><span class="toc-number">7.</span> <span class="toc-text">7. 后续</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/xixix/" title="xixix">xixix<sup>0</sup></a></li>
+		
+			<li><a href="/tags/项目/" title="项目">项目<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Chase. <br>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/shanqianyouyu" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="http://oj.ctgu.work" target="_blank" title="Chase">Chase</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
