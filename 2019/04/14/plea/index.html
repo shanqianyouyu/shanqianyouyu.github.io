@@ -82,7 +82,7 @@ jdk: 1.8.0_181
     </p>
   <p class="article-time">
     <time datetime="2019-04-14T03:30:50.000Z" itemprop="datePublished">2019-04-14</time>
-    Updated:<time datetime="2019-04-14T08:54:02.395Z" itemprop="dateModified">2019-04-14</time>
+    Updated:<time datetime="2019-04-14T09:38:50.873Z" itemprop="dateModified">2019-04-14</time>
     
   </p>
 </header>
@@ -91,7 +91,7 @@ jdk: 1.8.0_181
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-number">1.</span> <span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-number">3.</span> <span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-number">5.</span> <span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-number">6.</span> <span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-后续"><span class="toc-number">7.</span> <span class="toc-text">7. 后续</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-number">1.</span> <span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-number">3.</span> <span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-number">5.</span> <span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-number">6.</span> <span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-心跳包"><span class="toc-number">7.</span> <span class="toc-text">7. 心跳包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-分包"><span class="toc-number">8.</span> <span class="toc-text">8. 分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-后续"><span class="toc-number">9.</span> <span class="toc-text">8. 后续</span></a></li></ol>
 		</div>
 		
 		<blockquote>
@@ -107,12 +107,12 @@ jdk: 1.8.0_181
 <h2 id="1-界面"><a href="#1-界面" class="headerlink" title="1. 界面"></a>1. 界面</h2><p>&nbsp;&nbsp;利用Java swing的组件，配合eclipse拖拽完成的。感觉不太好用，组件什么使用起来都不太方便，最重要的是不好看。后来是在网上找了一个皮肤包导进去才好看了那么一点，Java swing要是可以嵌套css或者有像css那样美化的东西就好了。</p>
 </blockquote>
 <ul>
-<li>登录界面: <img src="/2019/04/14/plea/login.png" alt="图片"></li>
-<li>注册界面: <img src="/2019/04/14/plea/register.png" alt="图片"></li>
-<li>好友列表: <img src="/2019/04/14/plea/friendlist.png" alt="图片"></li>
-<li>信息: <img src="/2019/04/14/plea/info.png" alt="图片"></li>
-<li>查找: <img src="/2019/04/14/plea/seek.png" alt="图片"></li>
-<li>聊天窗口: <img src="/2019/04/14/plea/chatframe.png" alt="图片"></li>
+<li>登录界面: <img src="/2019/04/14/plea/plea/login.png" alt="图片"></li>
+<li>注册界面: <img src="/img/plea/register.png" alt="图片"></li>
+<li>好友列表: <img src="https://github.com/shanqianyouyu/img_Blog/blob/master/img/plea/friendlist.png" alt="图片"></li>
+<li>信息: <img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/info.png" alt="图片"></li>
+<li>查找: <img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/seek.png" alt="图片"></li>
+<li>聊天窗口: <img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/chatframe.png" alt="图片"></li>
 </ul>
 <blockquote>
 <h2 id="2-服务器"><a href="#2-服务器" class="headerlink" title="2. 服务器"></a>2. 服务器</h2><blockquote>
@@ -141,11 +141,11 @@ jdk: 1.8.0_181
 <blockquote>
 <h2 id="3-架构"><a href="#3-架构" class="headerlink" title="3. 架构"></a>3. 架构</h2><ul>
 <li>传统的浏览器/服务器架构<blockquote>
-<p><img src="/2019/04/14/plea/bs.png" alt="图片"></p>
+<p><img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/bs.png" alt="图片"></p>
 </blockquote>
 </li>
 <li>我的聊天软件架构<blockquote>
-<p><img src="/2019/04/14/plea/cs.png" alt="图片"></p>
+<p><img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/cs.png" alt="图片"></p>
 </blockquote>
 </li>
 </ul>
@@ -156,24 +156,24 @@ jdk: 1.8.0_181
 </blockquote>
 <blockquote>
 <h2 id="4-业务逻辑"><a href="#4-业务逻辑" class="headerlink" title="4. 业务逻辑"></a>4. 业务逻辑</h2><blockquote>
-<p>-登录流程：<img src="/2019/04/14/plea/loginonline.png" alt="图片"></p>
+<p>-登录流程：<img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/loginonline.png" alt="图片"></p>
 </blockquote>
 <blockquote>
-<p>-在线状态: <img src="/2019/04/14/plea/online.png" alt="图片"></p>
+<p>-在线状态: <img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/online.png" alt="图片"></p>
 </blockquote>
 <blockquote>
-<p>-在线聊天: <img src="/2019/04/14/plea/chatonline.png" alt="图片"></p>
+<p>-在线聊天: <img src="https://raw.githubusercontent.com/shanqianyouyu/img_Blog/master/img/plea/chatonline.png" alt="图片"></p>
 </blockquote>
 </blockquote>
 <blockquote>
 <h2 id="5-TCP-UDP，Socket"><a href="#5-TCP-UDP，Socket" class="headerlink" title="5. TCP,UDP，Socket"></a>5. TCP,UDP，Socket</h2><blockquote>
 <p>TCP</p>
 <blockquote>
-<p>持续稳定，面向连接，传递的消息不能过大</p>
+<p>持续稳定，面向连接，传递的消息不能过大，慢</p>
 </blockquote>
 <p>UDP</p>
 <blockquote>
-<p>无连接，</p>
+<p>无连接,速度快，不稳定</p>
 </blockquote>
 <p>Socket</p>
 <blockquote>
@@ -189,11 +189,37 @@ jdk: 1.8.0_181
 </blockquote>
 <blockquote>
 <h2 id="6-并发"><a href="#6-并发" class="headerlink" title="6. 并发"></a>6. 并发</h2><blockquote>
-<p>为了优化一个并发问题，特地去了解了一下线程池，来处理并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPMessageServer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">private</span> DatagramPacket packet = <span class="keyword">null</span>;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">UDPMessageServer</span><span class="params">(DatagramPacket packet)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.packet = packet;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DatagramSocket datagramSocket = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动服务器</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">openServer</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">            datagramSocket = <span class="keyword">new</span> DatagramSocket(<span class="number">4003</span>);<span class="comment">// 4003端口</span></span><br><span class="line">            <span class="comment">// 制作线程池</span></span><br><span class="line">            ExecutorService execute = Executors.newFixedThreadPool(<span class="number">1000</span>);</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="comment">// 等待客户端的数据</span></span><br><span class="line">                <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">10</span>];</span><br><span class="line">                DatagramPacket datagramPacket = <span class="keyword">new</span> DatagramPacket(b, b.length);</span><br><span class="line">                datagramSocket.receive(datagramPacket);</span><br><span class="line">                <span class="comment">////////////////////////// ///////////////////</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 数据一到手，立马建立一个线程处理</span></span><br><span class="line">                execute.execute(<span class="keyword">new</span> UDPMessageServer(datagramPacket));</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了优化一个并发问题，特地去了解了一下线程池，来处理并发问题。<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPMessageServer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">private</span> DatagramPacket packet = <span class="keyword">null</span>;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">UDPMessageServer</span><span class="params">(DatagramPacket packet)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.packet = packet;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DatagramSocket datagramSocket = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动服务器</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">openServer</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">            datagramSocket = <span class="keyword">new</span> DatagramSocket(<span class="number">4003</span>);<span class="comment">// 4003端口</span></span><br><span class="line">            <span class="comment">// 制作线程池</span></span><br><span class="line">            ExecutorService execute = Executors.newFixedThreadPool(<span class="number">1000</span>);</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="comment">// 等待客户端的数据</span></span><br><span class="line">                <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">10</span>];</span><br><span class="line">                DatagramPacket datagramPacket = <span class="keyword">new</span> DatagramPacket(b, b.length);</span><br><span class="line">                datagramSocket.receive(datagramPacket);</span><br><span class="line">                <span class="comment">////////////////////////// ///////////////////</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 数据一到手，立马建立一个线程处理</span></span><br><span class="line">                execute.execute(<span class="keyword">new</span> UDPMessageServer(datagramPacket));</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 </blockquote>
 <blockquote>
-<h2 id="7-后续"><a href="#7-后续" class="headerlink" title="7. 后续"></a>7. 后续</h2><blockquote>
+<h2 id="7-心跳包"><a href="#7-心跳包" class="headerlink" title="7. 心跳包"></a>7. 心跳包</h2><blockquote>
+<p>用来检测用户是否在线,维护用户的socket信息。client的意外断开，server是不知道的。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="8-分包"><a href="#8-分包" class="headerlink" title="8. 分包"></a>8. 分包</h2><blockquote>
+<p><b>DAO</b></p>
+<blockquote>
+<p>UserDAO</p>
+</blockquote>
+<p><b>DAOImpl</b></p>
+<blockquote>
+<p>UserDAOImpl</p>
+</blockquote>
+<p><b>entity</b></p>
+<blockquote>
+<p>Config<br>Msg<br>UserInfo<br>UserInfo2<br>UserInfoOnline</p>
+</blockquote>
+<p>Exception</p>
+<blockquote>
+<p>PasswordException<br>StateException<br>UsernameException<br>UsernameNotFoundException</p>
+</blockquote>
+<p>server</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="8-后续"><a href="#8-后续" class="headerlink" title="8. 后续"></a>8. 后续</h2><blockquote>
 <ul>
 <li>其实是有很多地方是有问题的，bug就不一一列举了，等下次有时间了，可以二次开发一下。</li>
 <li>这个聊天目前还不能用，我已经找到问题所在了，写之前一定要理清楚架构什么的。</li>
@@ -229,7 +255,7 @@ jdk: 1.8.0_181
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-number">1.</span> <span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-number">3.</span> <span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-number">5.</span> <span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-number">6.</span> <span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-后续"><span class="toc-number">7.</span> <span class="toc-text">7. 后续</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-number">1.</span> <span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-number">3.</span> <span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-number">5.</span> <span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-number">6.</span> <span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-心跳包"><span class="toc-number">7.</span> <span class="toc-text">7. 心跳包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-分包"><span class="toc-number">8.</span> <span class="toc-text">8. 分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-后续"><span class="toc-number">9.</span> <span class="toc-text">8. 后续</span></a></li></ol>
   </div>
 
 <div id="asidepart">
