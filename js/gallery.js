@@ -72,10 +72,10 @@
 //         oMeta.content = '3vvXbJr0gp';
 //         oMeta.name = 'baidu-site-verification';
 //         document.getElementsByTagName('head')[0].appendChild(oMeta);
-window.onload =function() {
-var oMeta = document.createElement('meta');
-        oMeta.content = '3vvXbJr0gp';
-        oMeta.name = 'baidu-site-verification';
-        document.getElementsByTagName('head')[0].appendChild(oMeta);
-        console.log('asdasd');
- };
+// window.onload =function() {
+// var oMeta = document.createElement('meta');
+//         oMeta.content = '3vvXbJr0gp';
+//         oMeta.name = 'baidu-site-verification';
+//         document.getElementsByTagName('head')[0].appendChild(oMeta);
+//         console.log('asdasd');
+//  };
