@@ -1,0 +1,393 @@
+
+ <!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>mybatis-base2 | Chase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Chase">
+    
+    <meta name="description" content="1.#和$Mapper.xml中：用#和\$获取信息
+
+SELECT id,username,password FROM client WHERE username = #{u_name} AND password = #{u_password}SELECT id,username,password">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Chase" title="Chase"></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chase">Chase</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
+						<input type="hidden" name="q" value="site:oj.ctgu.work">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/05/01/mybatis-base2/" title="mybatis-base2" itemprop="url">mybatis-base2</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://oj.ctgu.work" title="Chase">Chase</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2019-05-01T01:49:07.000Z" itemprop="datePublished">2019-05-01</time>
+    Updated:<time datetime="2019-05-01T01:52:02.622Z" itemprop="dateModified">2019-05-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-和"><span class="toc-number">1.</span> <span class="toc-text">1.#和$</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-和-符号的异同"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 #和$符号的异同:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-注解"><span class="toc-number">2.</span> <span class="toc-text">2.注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-注解中如何使用ResultMap"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 注解中如何使用ResultMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-动态SQL"><span class="toc-number">3.</span> <span class="toc-text">3. 动态SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-if的使用"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 if的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-choose的使用"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 choose的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-where元素的使用"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 where元素的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-set"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-trim"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 trim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-foreach"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 foreach</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-高级查询和分页查询"><span class="toc-number">4.</span> <span class="toc-text">4. 高级查询和分页查询</span></a></li></ol>
+		</div>
+		
+		<h2 id="1-和"><a href="#1-和" class="headerlink" title="1.#和$"></a>1.#和$</h2><p>Mapper.xml中：<br>用#和\$获取信息</p>
+<blockquote>
+<p>SELECT id,username,password FROM client WHERE username = #{u_name} AND password = #{u_password}<br>SELECT id,username,password FROM client WHERE username = \${u_name} AND password = \${u_password}</p>
+</blockquote>
+<p>让我们来看一看后台生成的SQL语句:<br>使用#:<br>Preparing: SELECT id,username,password FROM client WHERE username = ? AND password = ?<br>Parameters: will(String), 1111(String)</p>
+<p>使用$:<br>Preparing: SELECT id,username,password FROM client WHERE username = root AND password = chase<br> Parameters: </p>
+<h3 id="1-1-和-符号的异同"><a href="#1-1-和-符号的异同" class="headerlink" title="1.1 #和$符号的异同:"></a>1.1 #和$符号的异同:</h3><p> 相同:  都可以通过 # 和 \$ 来获取对象中的信息。<br> 不同: </p>
+<ul>
+<li>使用#传递的参数会先转换为占位符’？’，再通过设置占位符参数的方式来设置值(统统会给值使用单引号引用)</li>
+<li>使用\$传递的参数，直接把解析出来的数据作为SQL语句的一部分</li>
+</ul>
+<p>$有妙用就是在于稍微复杂的sql语句:<br>例如sql排序查找:<br>例如:</p>
+<blockquote>
+<p>SELECT id,username,password FROM client ORDER BY id desc<br>如果用 # 处理:<br>SELECT id,username,password FROM client ORDER BY #{orderBy}<br>假如 orderby 参数传入的是 id desc<br>执行以后就是 SELECT id,username,password FROM client ORDER BY ‘id desc’   ，该语句无效，<br>正确的语句应该是:<br> SELECT id,username,password FROM client ORDER BY \${orderBy}<br>内部生成的sql语句应该是 SELECT id,username,password FROM client ORDER BY id desc  无引号<br>所以这里的限定条件是不能用 # 处理的，要用 $</p>
+</blockquote>
+<h2 id="2-注解"><a href="#2-注解" class="headerlink" title="2.注解"></a>2.注解</h2><ul>
+<li>方式一: 使用xml配置，把SQL和映射写在XML文件中              (推荐)</li>
+<li>方式二: 使用注解配置，把SQL和映射写在Java代码中(Mapper接口)<br>如果sql语句很多前者看起来更直观</li>
+</ul>
+<p>可以看见是没有Mapper.xml文件的<img src="/2019/05/01/mybatis-base2/study-notes/2/1.png" alt="图片"><br>mybatis-config.xml配置: 关联接口<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- <span class="number">2</span>.关联映射文件/Mapper接口 --&gt;</span><br><span class="line">	&lt;mappers&gt;</span><br><span class="line">		&lt;!-- 关联Mapper接口 使用注解 --&gt;</span><br><span class="line">		&lt;mapper <span class="class"><span class="keyword">class</span></span>=<span class="string">"mapper.UserMapper"</span>/&gt;</span><br><span class="line">		</span><br><span class="line">        &lt;!-- 关联xml映射文件--&gt;</span><br><span class="line">		&lt;!--  &lt;mapper resource=<span class="string">"mapper/UserMapper.xml"</span>/&gt;--&gt;</span><br><span class="line">	&lt;/mappers&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>这里注意: 关联类的时候路径写’.’，其他文件使用 ‘/‘  这里开始他一直报错说找不到我的mapper.UserMapper类，就是因为我用了 ‘/‘</p>
+</blockquote>
+<p>UserMapper.java 加注解:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Delete;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Insert;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Options;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Select;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Update;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> domain.User;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Insert</span>(<span class="string">"INSERT INTO t_user (id,name,salary) values (#&#123;id&#125;,#&#123;name&#125;,#&#123;salary&#125;)"</span>)</span><br><span class="line">	<span class="meta">@Options</span>(useGeneratedKeys=<span class="keyword">true</span>,keyProperty=<span class="string">"id"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">save</span><span class="params">(User u)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Update</span>(<span class="string">"UPDATE t_user SET salary = #&#123;salary&#125; where id = #&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(User u)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Delete</span>(<span class="string">"DELETE FROM t_user where id = #&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">delete</span><span class="params">(Long id)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Select</span>(<span class="string">"SELECT id,name,salary FROM t_user WHERE id = #&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function">User <span class="title">get</span><span class="params">(Long id)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Select</span>(<span class="string">"SELECT id,name,salary FROM t_user"</span>)</span><br><span class="line">	<span class="function">List&lt;User&gt; <span class="title">listAll</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-1-注解中如何使用ResultMap"><a href="#2-1-注解中如何使用ResultMap" class="headerlink" title="2.1 注解中如何使用ResultMap"></a>2.1 注解中如何使用ResultMap</h3><p>xml文件中是有resultmap来处理表名与我们创建的实体类名不匹配的问题，那么注解的实现<br>假设数据库创建语句:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `t_user` (</span><br><span class="line">  `u_id` bigint(<span class="number">20</span>) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `u_name` varchar(<span class="number">20</span>) DEFAULT NULL,</span><br><span class="line">  `u_salary` decimal(<span class="number">8</span>,<span class="number">2</span>) DEFAULT NULL,</span><br><span class="line">  <span class="function">PRIMARY <span class="title">KEY</span> <span class="params">(`id`)</span></span></span><br><span class="line"><span class="function">) ENGINE</span>=InnoDB AUTO_INCREMENT=<span class="number">12</span> DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select</span>(<span class="string">"SELECT u_id, u_name, u_salary FROM t_user WHERE u_id = #&#123;id&#125;"</span>)</span><br><span class="line"><span class="meta">@Results</span>(id = <span class="string">"BaseResultMap"</span>, value = &#123;</span><br><span class="line">			<span class="meta">@Result</span>(column=<span class="string">"u_id"</span>, property=<span class="string">"id"</span>),</span><br><span class="line">			<span class="meta">@Result</span>(column=<span class="string">"u_name"</span>, property=<span class="string">"name"</span>),</span><br><span class="line">			<span class="meta">@Result</span>(column=<span class="string">"u_salary"</span>, property=<span class="string">"salary"</span>)</span><br><span class="line">			</span><br><span class="line">	&#125;)</span><br><span class="line"><span class="function">User <span class="title">get</span><span class="params">(Long id)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>那么下一次引用就不用写这么一串了，不用重复写:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select</span>(<span class="string">"SELECT id,name,salary FROM t_user"</span>)</span><br><span class="line"><span class="meta">@ResultMap</span>(<span class="string">"BaseResultMap"</span>)</span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">listAll</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>@Select()注解中，如果语句过长，是可以分开写的，因为内部是String数组，例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select</span>(&#123;<span class="string">"SELECT u_id, u_name, u_salary FROM t_user"</span>,<span class="string">" WHERE u_id = #&#123;id&#125;"</span>&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>实际开发中xml更多，而不是注解</strong></p>
+<h2 id="3-动态SQL"><a href="#3-动态SQL" class="headerlink" title="3. 动态SQL"></a>3. 动态SQL</h2><p>这个比较强大，有了前面的基础，使用起来十分简单了<br>数据库:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`employee`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`sn`</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`salary`</span> <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`deptId`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">7</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_0900_ai_ci;</span><br></pre></td></tr></table></figure></p>
+<p>数据:<img src="/2019/05/01/mybatis-base2/study-notes/2/2.png" alt="数据表"></p>
+<p>Mapper接口(面向接口编程):</p>
+<h3 id="3-1-if的使用"><a href="#3-1-if的使用" class="headerlink" title="3.1 if的使用"></a>3.1 if的使用</h3><p>目的：查询工资大于等于900 小于 1200的员工<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里使用@Param传参就很舒服</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeMapper</span> </span>&#123;</span><br><span class="line">	<span class="function">List&lt;Employee&gt; <span class="title">query2</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			@Param(<span class="string">"minSalary"</span>)</span> BigDecimal minSalary,</span></span><br><span class="line"><span class="function">			@<span class="title">Param</span><span class="params">(<span class="string">"maxSalary"</span>)</span> BigDecimal maxSalary</span></span><br><span class="line"><span class="function">			)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Mapper.xml配置(不使用注解):</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper</span></span><br><span class="line"><span class="meta">  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line"><span class="meta">  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"mapper.EmployeeMapper"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"query2"</span> <span class="attr">resultType</span>=<span class="string">"Employee"</span>&gt;</span></span><br><span class="line">		SELECT id, name, sn,salary,deptId FROM employee</span><br><span class="line">		<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"minSalary!=null"</span>&gt;</span></span><br><span class="line">			WHERE salary &gt;= #&#123;minSalary&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"minSalary!=null"</span>&gt;</span></span><br><span class="line">			AND salary &amp;lt;= #&#123;maxSalary&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里有一个坑点就是 ‘&lt;’符号放在sql会被读成 标签开始的 符号需要用 <strong>&amp;lt</strong>表示’&lt;’，见上语句</p>
+</blockquote>
+<p>测试语句:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查询工资大于等于900 小于 1200的员工</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">		EmployeeMapper em = session.getMapper(EmployeeMapper.class);</span><br><span class="line">		List&lt;Employee&gt; ems = em.query2(<span class="keyword">new</span> BigDecimal(<span class="number">900</span>),<span class="keyword">new</span> BigDecimal(<span class="number">1200</span>));</span><br><span class="line">		<span class="keyword">for</span> (Employee employee : ems) &#123;</span><br><span class="line">			System.out.println(employee);</span><br><span class="line">		&#125;</span><br><span class="line">		session.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试结果(一定要多用日志功能，真的很强大，有的sql语句的错误瞄一眼就知道了):<br><img src="/2019/05/01/mybatis-base2/study-notes/2/3.png" alt="png"></p>
+<h3 id="3-2-choose的使用"><a href="#3-2-choose的使用" class="headerlink" title="3.2 choose的使用"></a>3.2 choose的使用</h3><p>Mapper接口:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeMapper</span> </span>&#123;</span><br><span class="line">	<span class="function">List&lt;Employee&gt; <span class="title">query3</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			@Param(<span class="string">"minSalary"</span>)</span> BigDecimal minSalary,</span></span><br><span class="line"><span class="function">			@<span class="title">Param</span><span class="params">(<span class="string">"maxSalary"</span>)</span> BigDecimal maxSalary,</span></span><br><span class="line"><span class="function">			@<span class="title">Param</span><span class="params">(<span class="string">"deptId"</span>)</span> Long deptId</span></span><br><span class="line"><span class="function">			)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Mapper.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"query3"</span> <span class="attr">resultType</span>=<span class="string">"Employee"</span>&gt;</span></span><br><span class="line">		SELECT id, name, sn,salary,deptId FROM employee</span><br><span class="line">		WHERE 1=1</span><br><span class="line">		<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"minSalary!=null"</span>&gt;</span></span><br><span class="line">			AND salary &gt;= #&#123;minSalary&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"minSalary!=null"</span>&gt;</span></span><br><span class="line">			AND salary &amp;lt;= #&#123;maxSalary&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">choose</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">"deptId &gt; 0"</span>&gt;</span>AND deptId = #&#123;deptId&#125;<span class="tag">&lt;/<span class="name">when</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">otherwise</span>&gt;</span>AND deptId IS NOT NULL<span class="tag">&lt;/<span class="name">otherwise</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">choose</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意这里<strong>WHERE 1 = 1</strong>的使用，感觉是很精巧了,但是很low</p>
+</blockquote>
+<p>测试java:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//测一下20号部门的人，这里即使是传入null也没有问题，得益于上面的 WHERE 1=1,相当于一个占据了第一个WHERE，后面的无脑AND连接就行,也不会报错</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">		EmployeeMapper em = session.getMapper(EmployeeMapper.class);</span><br><span class="line">		List&lt;Employee&gt; ems = em.query3(<span class="keyword">null</span>,<span class="keyword">null</span>, <span class="number">20L</span>);</span><br><span class="line">		<span class="keyword">for</span> (Employee employee : ems) &#123;</span><br><span class="line">			System.out.println(employee);</span><br><span class="line">		&#125;</span><br><span class="line">		session.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果:<br><img src="/2019/05/01/mybatis-base2/study-notes/2/4.png" alt="结果"></p>
+<h3 id="3-3-where元素的使用"><a href="#3-3-where元素的使用" class="headerlink" title="3.3 where元素的使用"></a>3.3 where元素的使用</h3><blockquote>
+<p>作用: 判断查询条件是否有WHERE关键字，若没有，则在第一个查询之前插入一个WHERE关键字;如果发现查询条件以AND或者OR开头，也会把第一个查询条件前的AND/OR替换成WHERE<br>所以说上面的WHERE 1 = 1就用where代替了<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"query3"</span> <span class="attr">resultType</span>=<span class="string">"Employee"</span>&gt;</span></span><br><span class="line">		SELECT id, name, sn,salary,deptId FROM employee</span><br><span class="line">		<span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"minSalary!=null"</span>&gt;</span></span><br><span class="line">				AND salary &gt;= #&#123;minSalary&#125;</span><br><span class="line">			<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"minSalary!=null"</span>&gt;</span></span><br><span class="line">				AND salary &amp;lt;= #&#123;maxSalary&#125;</span><br><span class="line">			<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">choose</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">"deptId &gt; 0"</span>&gt;</span>AND deptId = #&#123;deptId&#125;<span class="tag">&lt;/<span class="name">when</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">otherwise</span>&gt;</span>AND deptId IS NOT NULL<span class="tag">&lt;/<span class="name">otherwise</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">choose</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="3-4-set"><a href="#3-4-set" class="headerlink" title="3.4 set"></a>3.4 set</h3><blockquote>
+<p>跟where类似，用来判断update中是否有’,’或者 多了 ‘,’，也会自己加set</p>
+</blockquote>
+<p>就随便找个案例了<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateAuthorIfNecessary"</span>&gt;</span></span><br><span class="line">  update Author</span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span>&gt;</span>username=#&#123;username&#125;,<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"password != null"</span>&gt;</span>password=#&#123;password&#125;,<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"email != null"</span>&gt;</span>email=#&#123;email&#125;,<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"bio != null"</span>&gt;</span>bio=#&#123;bio&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">  where id=#&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-5-trim"><a href="#3-5-trim" class="headerlink" title="3.5 trim"></a>3.5 trim</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">""</span> <span class="attr">prefixOverrides</span>=<span class="string">""</span> <span class="attr">suffix</span>=<span class="string">""</span> <span class="attr">suffixOverrides</span>=<span class="string">""</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">trim</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>前提：trim元素包含内容返回了一个字符串</p>
+<ul>
+<li>prefix: 在这个字符串之前插入了一个prefix属性值</li>
+<li>prefixOverrides: 如果字符串的内容以prefixOverrides中的内容开头(可以包含管道符号)，那么使用perfix属性值替换内容的开头</li>
+<li>suffix: 在这个字符串之后插入suffix属性值</li>
+<li>suffixOverrides: 如果字符串的内容以prefixOverrides中的内容结尾(可以包含管道符号)，那么使用suffix属性值替换内容的结尾</li>
+</ul>
+<p>可以代替set和where，但是不会这么做<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"WHERE"</span> <span class="attr">prefixOverrides</span>=<span class="string">"AND |OR"</span>&gt;</span><span class="tag">&lt;/<span class="name">trim</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"SET"</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span>&gt;</span><span class="tag">&lt;/<span class="name">trim</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-6-foreach"><a href="#3-6-foreach" class="headerlink" title="3.6 foreach"></a>3.6 foreach</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">""</span> <span class="attr">close</span>=<span class="string">""</span> <span class="attr">index</span>=<span class="string">""</span> <span class="attr">item</span>=<span class="string">""</span> <span class="attr">open</span>=<span class="string">""</span> <span class="attr">separator</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>collection：表示对哪一个集合或数组做迭代，如果参数是数组类型，此时Map的key为array;如果参数是list类型，此时Map的key为list，我们可以在参数上使用Param注解，规定死Map中的key是什么</li>
+<li>open：在迭代集合之前，拼接什么符号</li>
+<li>close：在迭代集合之后，拼接什么符号</li>
+<li>separator：在迭代元素时，每一个元素之间使用什么符号分割开来</li>
+<li>item：被迭代的每一个元素的变量</li>
+<li>index：迭代的索引<br>批量删除实例：<br>xml配置<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"batchDelete"</span>&gt;</span></span><br><span class="line">		DELETE FROM employee WHERE id IN</span><br><span class="line">		<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"ids"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">close</span>=<span class="string">")"</span> <span class="attr">item</span>=<span class="string">"id"</span> <span class="attr">separator</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">			#&#123;id&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">delete</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>接口:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">batchDelete</span><span class="params">(@Param(<span class="string">"ids"</span>)</span> Long[] ids)</span>;</span><br></pre></td></tr></table></figure></p>
+<p>批量插入实例：<br>xml配置:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"batchSave"</span>&gt;</span> </span><br><span class="line">    insert into employee (name,sn,salary) values</span><br><span class="line">	<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"emps"</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">item</span>=<span class="string">"e"</span>&gt;</span></span><br><span class="line">		(#&#123;e.name&#125;,#&#123;e.sn&#125;,#&#123;e.salary&#125;)</span><br><span class="line">	<span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>接口:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">batchSave</span><span class="params">(@Param(<span class="string">"emps"</span>)</span> List&lt;Employee&gt; emps)</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-高级查询和分页查询"><a href="#4-高级查询和分页查询" class="headerlink" title="4. 高级查询和分页查询"></a>4. 高级查询和分页查询</h2><ul>
+<li>高级查询<br>封装高级查询信息<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeQueryObject</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String keyword;			<span class="comment">//员工的姓名或者编号</span></span><br><span class="line">	<span class="keyword">private</span> BigDecimal minSalary;	<span class="comment">//最低工资</span></span><br><span class="line">	<span class="keyword">private</span> BigDecimal maxSalary;	<span class="comment">//最高工资</span></span><br><span class="line">	<span class="keyword">private</span> Long deptId;		<span class="comment">//部门ID</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>mapper.xml配置:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">  PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line">  <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span><br><span class="line">&lt;mapper namespace=<span class="string">"mapper.EmployeeMapper"</span>&gt;</span><br><span class="line">	&lt;select id=<span class="string">"queryForList"</span> resultType=<span class="string">"Employee"</span>&gt;</span><br><span class="line">		SELECT id,name,sn,salary,deptId FROM employee</span><br><span class="line">		&lt;where&gt;</span><br><span class="line">			&lt;<span class="keyword">if</span> test=<span class="string">"keyword!=null"</span>&gt;</span><br><span class="line">				AND (<span class="function">name LIKE <span class="title">concat</span><span class="params">(<span class="string">'%'</span>,#&#123;keyword&#125;,<span class="string">'%'</span>)</span> OR sn LIKE <span class="title">concat</span><span class="params">(<span class="string">'%'</span>,#&#123;keyword&#125;,<span class="string">'%'</span>)</span>)</span></span><br><span class="line"><span class="function">			&lt;/<span class="keyword">if</span>&gt;</span></span><br><span class="line"><span class="function">			&lt;<span class="keyword">if</span> test</span>=<span class="string">"minSalary!=null"</span>&gt;</span><br><span class="line">				AND salary &gt;= #&#123;minSalary&#125;</span><br><span class="line">			&lt;/if&gt;</span><br><span class="line">			&lt;<span class="keyword">if</span> test=<span class="string">"maxSalary!=null"</span>&gt;</span><br><span class="line">				AND salary &amp;lt;=#&#123;maxSalary&#125;</span><br><span class="line">			&lt;/if&gt;</span><br><span class="line">			&lt;<span class="keyword">if</span> test=<span class="string">"deptId!=null"</span>&gt;</span><br><span class="line">				AND deptId = #&#123;deptId&#125;</span><br><span class="line">			&lt;/if&gt;</span><br><span class="line">		&lt;/where&gt;</span><br><span class="line">	&lt;/select&gt;</span><br><span class="line">	</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Mapper接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeMapper</span> </span>&#123;</span><br><span class="line">	<span class="function">List&lt;Employee&gt; <span class="title">queryForList</span><span class="params">(EmployeeQueryObject qo)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 需求：按照员工关键字(abc)，工资范围，所属部门查询</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 高级查询</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		EmployeeQueryObject qs = <span class="keyword">new</span> EmployeeQueryObject();</span><br><span class="line"><span class="comment">//		qs.setKeyword(" ");</span></span><br><span class="line">		qs.setMinSalary(<span class="keyword">new</span> BigDecimal(<span class="number">1000</span>));</span><br><span class="line">		qs.setMaxSalary(<span class="keyword">new</span> BigDecimal(<span class="number">1200</span>));</span><br><span class="line">		qs.setDeptId(<span class="number">30L</span>);</span><br><span class="line">		SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">		EmployeeMapper employeeMapper = session.getMapper(EmployeeMapper.class);</span><br><span class="line">		List&lt;Employee&gt; es = employeeMapper.queryForList(qs);</span><br><span class="line">		<span class="keyword">for</span> (Employee employee : es) &#123;</span><br><span class="line">			System.out.println(employee);</span><br><span class="line">		&#125;</span><br><span class="line">		session.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>分页查询</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mybatis学习笔记/">mybatis学习笔记</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://oj.ctgu.work/2019/05/01/mybatis-base2/" data-title="mybatis-base2 | Chase" data-tsina class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/04/26/mybatis-base1/" title="mybatis-----一些简单的概念和配置">
+ <strong>NEXT:</strong><br> 
+ <span>mybatis-----一些简单的概念和配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-和"><span class="toc-number">1.</span> <span class="toc-text">1.#和$</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-和-符号的异同"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 #和$符号的异同:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-注解"><span class="toc-number">2.</span> <span class="toc-text">2.注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-注解中如何使用ResultMap"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 注解中如何使用ResultMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-动态SQL"><span class="toc-number">3.</span> <span class="toc-text">3. 动态SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-if的使用"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 if的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-choose的使用"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 choose的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-where元素的使用"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 where元素的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-set"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-trim"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 trim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-foreach"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 foreach</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-高级查询和分页查询"><span class="toc-number">4.</span> <span class="toc-text">4. 高级查询和分页查询</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Java-swing/" title="Java swing">Java swing<sup>0</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>0</sup></a></li>
+		
+			<li><a href="/tags/mybatis学习笔记/" title="mybatis学习笔记">mybatis学习笔记<sup>2</sup></a></li>
+		
+			<li><a href="/tags/项目/" title="项目">项目<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Chase. <br>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/shanqianyouyu" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="http://oj.ctgu.work" target="_blank" title="Chase">Chase</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
