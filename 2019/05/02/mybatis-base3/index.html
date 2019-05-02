@@ -4,7 +4,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>mybatis-base3 | Chase</title>
+    <title>mybatis-----对象关系 | Chase</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Chase">
@@ -66,7 +66,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/05/02/mybatis-base3/" title="mybatis-base3" itemprop="url">mybatis-base3</a>
+      <a href="/2019/05/02/mybatis-base3/" title="mybatis-----对象关系" itemprop="url">mybatis-----对象关系</a>
   </h1>
   <p class="article-author">By
     
@@ -74,7 +74,7 @@
     </p>
   <p class="article-time">
     <time datetime="2019-05-02T08:06:33.000Z" itemprop="datePublished">2019-05-02</time>
-    Updated:<time datetime="2019-05-02T08:09:36.544Z" itemprop="dateModified">2019-05-02</time>
+    Updated:<time datetime="2019-05-02T08:13:32.342Z" itemprop="dateModified">2019-05-02</time>
     
   </p>
 </header>
@@ -221,18 +221,23 @@
 <p>private List<teacher> teachers = new ArrayList<teacher>();</teacher></teacher></p>
 </blockquote>
 <blockquote>
-<p>除了插入操作以外，还要在建立一个维护关系操作，Student中要有除了插入stu表，还要对stu_teacher进行维护，因为是多对多的单向关联，集合在Student中，所以插入操作定义在Student一方。<br>更新，查询基本之前的操作差不多，不多描述。查询相对麻烦，之前我们说过，这里是集合，用collection处理，我们尽量使用分步查询，懒加载的操作。</p>
+<p>除了插入操作以外，还要在建立一个维护关系操作，Student中要有除了插入stu表，还要对stu_teacher表进行维护，因为是多对多的单向关联，集合在Student类中，所以插入操作定义在Student一方。<br>更新，查询基本之前的操作差不多，不多描述。查询相对麻烦，之前我们说过，这里是集合，用collection处理，我们尽量使用分步查询，懒加载的操作。</p>
 </blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mybatis学习笔记/">mybatis学习笔记</a>
+  </div>
 
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://oj.ctgu.work/2019/05/02/mybatis-base3/" data-title="mybatis-base3 | Chase" data-tsina class="share clearfix">
+  <div data-url="http://oj.ctgu.work/2019/05/02/mybatis-base3/" data-title="mybatis-----对象关系 | Chase" data-tsina class="share clearfix">
   </div>
 
 </div>
@@ -276,7 +281,7 @@
 		
 			<li><a href="/tags/java/" title="java">java<sup>0</sup></a></li>
 		
-			<li><a href="/tags/mybatis学习笔记/" title="mybatis学习笔记">mybatis学习笔记<sup>2</sup></a></li>
+			<li><a href="/tags/mybatis学习笔记/" title="mybatis学习笔记">mybatis学习笔记<sup>3</sup></a></li>
 		
 			<li><a href="/tags/项目/" title="项目">项目<sup>1</sup></a></li>
 		
