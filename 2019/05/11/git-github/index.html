@@ -75,7 +75,7 @@
     </p>
   <p class="article-time">
     <time datetime="2019-05-11T01:52:07.000Z" itemprop="datePublished">2019-05-11</time>
-    Updated:<time datetime="2019-05-12T08:26:45.663Z" itemprop="dateModified">2019-05-12</time>
+    Updated:<time datetime="2019-05-12T08:31:30.864Z" itemprop="dateModified">2019-05-12</time>
     
   </p>
 </header>
@@ -115,7 +115,7 @@
 <li>git config –list –global    所有仓库有效</li>
 <li>git config –list –system</li>
 </ul>
-<h2 id="了解工作区，暂存区，历史版本库"><a href="#了解工作区，暂存区，历史版本库" class="headerlink" title="了解工作区，暂存区，历史版本库"></a>了解工作区，暂存区，历史版本库</h2><p><img src="/img/git-github/" alt="分区">(三个分区.png)</p>
+<h2 id="了解工作区，暂存区，历史版本库"><a href="#了解工作区，暂存区，历史版本库" class="headerlink" title="了解工作区，暂存区，历史版本库"></a>了解工作区，暂存区，历史版本库</h2><p><img src="/img/git-github/三个分区.png" alt="分区"></p>
 <h3 id="git是如何保存数据的"><a href="#git是如何保存数据的" class="headerlink" title="git是如何保存数据的"></a>git是如何保存数据的</h3><p>git存储文件的方式不是存储文件的变化或者差异，他存储的是一系列不同时刻文件的 <strong>快照</strong> .例如，每次你执行 <kbd>git add</kbd> 或者 <kbd>git commmit</kbd> 操作，就会将文件压缩成一个二进制文件，这就是一个Git对象，存在于 ==.git/objects== 目录下。文件的名字是用SHA1算法计算的一个hash值(长度40的字符串)， ==.git/objects== 下成一个子目录，前两个字符是子目录名，后38位是文件名。</p>
 <h2 id="git文件"><a href="#git文件" class="headerlink" title=".git文件"></a>.git文件</h2><p>两个比较重要的文件:</p>
 <blockquote>
