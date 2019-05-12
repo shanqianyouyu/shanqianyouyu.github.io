@@ -75,7 +75,7 @@
     </p>
   <p class="article-time">
     <time datetime="2019-05-11T01:52:07.000Z" itemprop="datePublished">2019-05-11</time>
-    Updated:<time datetime="2019-05-12T08:19:13.039Z" itemprop="dateModified">2019-05-12</time>
+    Updated:<time datetime="2019-05-12T08:26:45.663Z" itemprop="dateModified">2019-05-12</time>
     
   </p>
 </header>
@@ -115,7 +115,7 @@
 <li>git config –list –global    所有仓库有效</li>
 <li>git config –list –system</li>
 </ul>
-<h2 id="了解工作区，暂存区，历史版本库"><a href="#了解工作区，暂存区，历史版本库" class="headerlink" title="了解工作区，暂存区，历史版本库"></a>了解工作区，暂存区，历史版本库</h2><p><img src="/2019/05/11/git-github/git-github" alt="分区">(三个分区.png)</p>
+<h2 id="了解工作区，暂存区，历史版本库"><a href="#了解工作区，暂存区，历史版本库" class="headerlink" title="了解工作区，暂存区，历史版本库"></a>了解工作区，暂存区，历史版本库</h2><p><img src="/img/git-github/" alt="分区">(三个分区.png)</p>
 <h3 id="git是如何保存数据的"><a href="#git是如何保存数据的" class="headerlink" title="git是如何保存数据的"></a>git是如何保存数据的</h3><p>git存储文件的方式不是存储文件的变化或者差异，他存储的是一系列不同时刻文件的 <strong>快照</strong> .例如，每次你执行 <kbd>git add</kbd> 或者 <kbd>git commmit</kbd> 操作，就会将文件压缩成一个二进制文件，这就是一个Git对象，存在于 ==.git/objects== 目录下。文件的名字是用SHA1算法计算的一个hash值(长度40的字符串)， ==.git/objects== 下成一个子目录，前两个字符是子目录名，后38位是文件名。</p>
 <h2 id="git文件"><a href="#git文件" class="headerlink" title=".git文件"></a>.git文件</h2><p>两个比较重要的文件:</p>
 <blockquote>
@@ -205,9 +205,9 @@
 <li>将多个commit整理成一个commit</li>
 </ol>
 <p>– 不连续的commit<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i &lt;要整合的最早的一个commit&gt;</span><br></pre></td></tr></table></figure></p>
-<p>演示：<br>先看一段版本历史:<br><img src="/2019/05/11/git-github/git-github/rebase版本历史.png" alt="版本历史"><br>容易看出版本号为： d09341c ，e3a6b32 ，603e2b3 都是对readme.md的操作，我们想整理成一次commit。<br>先找到要整合的最早的commit的版本号 为 603e2b3<br>执行：<kbd>git rebase -i 603e2b3<kbd><br>进入界面:<br><img src="/2019/05/11/git-github/git-github/rebase版本编辑.png" alt="版本历史"><br>修改后：<br>注意看p,s均为简写，下方有注释<br><img src="/2019/05/11/git-github/git-github/修改后的rebase编辑.png" alt="版本历史"></kbd></kbd></p>
+<p>演示：<br>先看一段版本历史:<br><img src="/img/git-github/rebase版本历史.png" alt="版本历史"><br>容易看出版本号为： d09341c ，e3a6b32 ，603e2b3 都是对readme.md的操作，我们想整理成一次commit。<br>先找到要整合的最早的commit的版本号 为 603e2b3<br>执行：<kbd>git rebase -i 603e2b3<kbd><br>进入界面:<br><img src="/img/git-github/rebase版本编辑.png" alt="版本历史"><br>修改后：<br>注意看p,s均为简写，下方有注释<br><img src="/img/git-github/修改后的rebase编辑.png" alt="版本历史"></kbd></kbd></p>
 <p>退出后，执行 <kbd>git rebase –continue<kbd></kbd></kbd></p>
-<p>进入界面：<br><img src="/2019/05/11/git-github/git-github/rebase编辑注释前.png" alt="版本历史"><br>添加注释：<br><img src="/2019/05/11/git-github/git-github/rebase编辑添加注释后.png" alt="版本历史"></p>
+<p>进入界面：<br><img src="/img/git-github/rebase编辑注释前.png" alt="版本历史"><br>添加注释：<br><img src="/img/git-github/rebase编辑添加注释后.png" alt="版本历史"></p>
 <p>– 连续的commit<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i &lt;整合的最早的一个commit&gt;</span><br></pre></td></tr></table></figure></p>
 <p>类似上方，更简单。</p>
 <ol start="14">
@@ -299,7 +299,7 @@
 <li>git push -f &lt;commit版本号&gt;</li>
 <li>禁止向集成分支执行变更历史操作(变基操作)</li>
 </ul>
-<h2 id="如何在Github上找到想要的开源项目呢"><a href="#如何在Github上找到想要的开源项目呢" class="headerlink" title="如何在Github上找到想要的开源项目呢"></a>如何在Github上找到想要的开源项目呢</h2><p>进入<a href="https://github.com/search/advanced" target="_blank" rel="noopener">链接</a>： <a href="https://github.com/search/advanced" target="_blank" rel="noopener">https://github.com/search/advanced</a><br>或者在搜索栏空搜，<img src="/2019/05/11/git-github/git-github/git的搜索功能.png" alt="git的搜索功能.png"><br>github的help中有教怎么用，或者看看这个<a href="https://zhuanlan.zhihu.com/p/55294261" target="_blank" rel="noopener">链接</a>吧.</p>
+<h2 id="如何在Github上找到想要的开源项目呢"><a href="#如何在Github上找到想要的开源项目呢" class="headerlink" title="如何在Github上找到想要的开源项目呢"></a>如何在Github上找到想要的开源项目呢</h2><p>进入<a href="https://github.com/search/advanced" target="_blank" rel="noopener">链接</a>： <a href="https://github.com/search/advanced" target="_blank" rel="noopener">https://github.com/search/advanced</a><br>或者在搜索栏空搜，<img src="/img/git-github/git的搜索功能.png" alt="git的搜索功能.png"><br>github的help中有教怎么用，或者看看这个<a href="https://zhuanlan.zhihu.com/p/55294261" target="_blank" rel="noopener">链接</a>吧.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
