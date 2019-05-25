@@ -1,306 +1,565 @@
-
- <!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
+  
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="author" content="Chase">
   
-    <title>Chase</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="Chase">
-    
-    
-    
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.svg" alt="Chase" title="Chase"></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="Chase">Chase</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search">
-						<input type="hidden" name="q" value="site:oj.ctgu.work">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-
-    </header>
-    <div id="container">
-      <div id="main">
-
-  <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2019/05/25/初窥java反射/" title="初窥java反射" itemprop="url">
+  <title>Chase</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
   
-    <h1 itemprop="name">初窥java反射</h1>
-    
-     
-           <p itemprop="description">工具：
-
-jdk: 1.8.0_181IDE:IntelliJ IDEA Community Edition 2019.1.2 x64
-
-类加载机制
-当程序要使用某个类时，如果该类还未被加载到内存中，则系统会通过加载，连接，初始化三步来实现对这个类进行初始化。
-加载
-2.1  就</p>
-        
-    
-    <time datetime="2019-05-25T11:55:52.000Z" itemprop="datePublished">2019-05-25</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
+    <meta name="keywords" content="Hexo, Theme-AD">
   
-    <a href="/2019/05/11/git-github/" title="git&amp;github的使用" itemprop="url">
+
   
-    <h1 itemprop="name">git&amp;github的使用</h1>
-    
-     
-           <p itemprop="description">git真的是一个很方便的一个工具，非常值得学习，而且搭配github使用或者是多人项目的开发，真的是很牛x。
-
-分布式与集中式学习之前了解一下分布式与集中式假如我们要办一件事,一个人包揽就是集中式，一件事分成几个部分分成几个人做就是分布式，二者最取得的效果是一样的。比如一个jav</p>
-        
-    
-    <time datetime="2019-05-11T01:52:07.000Z" itemprop="datePublished">2019-05-11</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/05/02/mybatis-base4/" title="mybatis-----缓存" itemprop="url">
-  
-    <h1 itemprop="name">mybatis-----缓存</h1>
-    
-     
-           <p itemprop="description">缓存(Cache)优势
-可以使应用更快的获取数据，避免和数据库做频繁的交互操作，尤其是查询操作比较频繁的时候，当缓存命中率比较高的时候，缓存的优势就很明显。
-
-原理：利用Map，好比是在SqlSession中存在一个map,用来缓存查询出来的对象
-流程使用缓存的流程：1.查询的时</p>
-        
-    
-    <time datetime="2019-05-02T10:16:41.000Z" itemprop="datePublished">2019-05-02</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/05/02/mybatis-base3/" title="mybatis-----对象关系" itemprop="url">
-  
-    <h1 itemprop="name">mybatis-----对象关系</h1>
-    
-     
-           <p itemprop="description">对象关系设计前面两个是表现为纵向关系，后面的表现为横向关系，强弱关系如下: 组合 &amp;gt; 聚合 &amp;gt; 关联 &amp;gt; 依赖，这几种关系都是语义级别的关系，所以从代码层面并不能完全区别各种关系。在面向对象设计的过程中，能采用强度大的关系，绝不能采取强度小的关系。
-泛化关系(g</p>
-        
-    
-    <time datetime="2019-05-02T08:06:33.000Z" itemprop="datePublished">2019-05-02</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/05/01/mybatis-base2/" title="mybatis-----动态sql" itemprop="url">
-  
-    <h1 itemprop="name">mybatis-----动态sql</h1>
-    
-     
-           <p itemprop="description">1.#和$Mapper.xml中：用#和\$获取信息
-
-SELECT id,username,password FROM client WHERE username = #{u_name} AND password = #{u_password}SELECT id,usernam</p>
-        
-    
-    <time datetime="2019-05-01T01:49:07.000Z" itemprop="datePublished">2019-05-01</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/04/26/mybatis-base1/" title="mybatis-----一些简单的概念和配置" itemprop="url">
-  
-    <h1 itemprop="name">mybatis-----一些简单的概念和配置</h1>
-    
-     
-           <p itemprop="description">学习mybatis过程中做的一点笔记，一方面有助于学习，一方面方便捡起来。
-
-1.类型别名是为 Java 类型设置一个短的名字。 它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。例如：(mapper文件中)123&amp;lt;select id=&#34;listAll&#34;</p>
-        
-    
-    <time datetime="2019-04-26T10:00:22.000Z" itemprop="datePublished">2019-04-26</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2019/04/14/plea/" title="寒假答辩之基于Java的聊天工具" itemprop="url">
-  
-    <h1 itemprop="name">寒假答辩之基于Java的聊天工具</h1>
-    
-     
-           <p itemprop="description">前言：Java课上了解了socket就想写一个聊天工具，寒假就写了这个，感觉还挺有意思的。
-
-
-
-开发工具：Eclipse IDE(4.9.0)
-jdk: 1.8.0_181
-
-
-
-1. 界面&amp;nbsp;&amp;nbsp;利用Java swing的组件，配合eclipse拖拽完成的。感</p>
-        
-    
-    <time datetime="2019-04-14T03:30:50.000Z" itemprop="datePublished">2019-04-14</time>
-  </a>
-</section>
-
-
-</div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
-<aside class="clearfix">
+  <meta name="description" content="这里是Chase拉">
 
   
 
   
-<div class="tagslist">
-	<p class="asidetitle">Tags</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/Java-swing/" title="Java swing">Java swing<sup>0</sup></a></li>
-		
-			<li><a href="/tags/git-github/" title="git&amp;github">git&amp;github<sup>1</sup></a></li>
-		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
-		
-			<li><a href="/tags/mybatis学习笔记/" title="mybatis学习笔记">mybatis学习笔记<sup>4</sup></a></li>
-		
-			<li><a href="/tags/项目/" title="项目">项目<sup>1</sup></a></li>
-		
-		</ul>
-</div>
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+  
 
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
 
-  <div class="rsspart">
-	<a href target="_blank" title="rss">RSS</a>
-</div>
+  
 
-</aside>
-</div>
-    </div>
-    <footer><div id="footer">
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m Chase. <br>
-			This is my blog,believe it or not.</p>
-	</section>
-	 
-	<div class="social-font clearfix">
-		
-		
-		
-		<a href="https://github.com/https://github.com/shanqianyouyu" target="_blank" title="github"></a>
-		
-		
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
-		
-		<a href="http://oj.ctgu.work" target="_blank" title="Chase">Chase</a>
-		
-		</p>
-</div>
-</footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":null,"appkey":null,"comment":false,"count":true},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2019-04-18",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: false,
+    lock: false,
+    author: "Chase",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
   };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
 </script>
 
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">Chase</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 那些路上的脚印，永远不会被隐藏</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://shanqianyouyu.github.io/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      <div class="home">
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-05-25
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/初窥java反射/">初窥java反射</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/初窥java反射/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/java/"><i class="fa fa-tags"></i>java</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-05-11
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/git-github/">git&github的使用</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/git-github/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/git-github/"><i class="fa fa-tags"></i>git&github</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-05-02
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/mybatis-base4/">mybatis-----缓存</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/mybatis-base4/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/mybatis学习笔记/"><i class="fa fa-tags"></i>mybatis学习笔记</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-05-02
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/mybatis-base3/">mybatis-----对象关系</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/mybatis-base3/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/mybatis学习笔记/"><i class="fa fa-tags"></i>mybatis学习笔记</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-05-01
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/mybatis-base2/">mybatis-----动态sql</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/mybatis-base2/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/mybatis学习笔记/"><i class="fa fa-tags"></i>mybatis学习笔记</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-04-26
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/mybatis-base1/">mybatis-----一些简单的概念和配置</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/mybatis-base1/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/mybatis学习笔记/"><i class="fa fa-tags"></i>mybatis学习笔记</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="home-article-wrapper clearfix">
+      <div class="home-article" data-cover="false">
+        <div class="home-article-inner" data-cover="false">
+          <div class="passage-meta">
+            <span>
+              <i class="fa fa-calendar"></i>2019-04-14
+            </span>
+            
+            
+              <span>
+                | <i class="fa fa-unlock-alt"></i>UNLOCK
+              </span>
+            
+          </div>
+          <h1 class="home-article-title">
+            <a href="/passages/plea/">寒假答辩之基于Java的聊天工具</a>
+          </h1>
+          <div class="home-article-content passage-article">
+            
+              
+            
+          </div>
+          <a class="home-article-read" href="/passages/plea/">
+            READ MORE >>>
+          </a>
+          
+            <div class="passage-tags">
+             
+              <a href="/tags/项目/"><i class="fa fa-tags"></i>项目</a>
+            
+            </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+</div>
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">博客推荐</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://me.csdn.net/dfgdgfbb/" target="_blank">王哥</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/cx776474961/" target="_blank">cx</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: imsunchao@gmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
 
 
 
 
 
-
+    
   </body>
- </html>
+</html>

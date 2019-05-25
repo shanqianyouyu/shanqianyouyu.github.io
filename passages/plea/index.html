@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Chase">
+  
+  
+  <title>寒假答辩之基于Java的聊天工具 | Chase</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="项目,">
+  
+
+  
+  <meta name="description" content="这里是Chase拉">
+
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":null,"appkey":null,"comment":false,"count":true},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2019-04-18",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Chase",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">Chase</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 那些路上的脚印，永远不会被隐藏</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://shanqianyouyu.github.io/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-14
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    寒假答辩之基于Java的聊天工具
+  </h1>
+  
+  <article class="passage-article">
+    <blockquote>
+<p>前言：Java课上了解了socket就想写一个聊天工具，寒假就写了这个，感觉还挺有意思的。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>开发工具：Eclipse IDE(4.9.0)</li>
+<li>jdk: 1.8.0_181</li>
+</ul>
+</blockquote>
+<blockquote>
+<h2 id="1-界面"><a href="#1-界面" class="headerlink" title="1. 界面"></a>1. 界面</h2><p>&nbsp;&nbsp;利用Java swing的组件，配合eclipse拖拽完成的。感觉不太好用，组件什么使用起来都不太方便，最重要的是不好看。后来是在网上找了一个皮肤包导进去才好看了那么一点，Java swing要是可以嵌套css或者有像css那样美化的东西就好了。</p>
+</blockquote>
+<ul>
+<li>登录界面: <img src="/img/plea/login.png" alt="登录图片"></li>
+<li>注册界面: <img src="/img/plea/register.png" alt="注册图片"></li>
+<li>好友列表: <img src="/img/plea/friendlist.png" alt="好友列表"></li>
+<li>信息: <img src="/img/plea/info.png" alt="信息"></li>
+<li>查找: <img src="/img/plea/seek.png" alt="查找"></li>
+<li>聊天窗口: <img src="/img/plea/chatframe.png" alt="聊天窗口"></li>
+</ul>
+<blockquote>
+<h2 id="2-服务器"><a href="#2-服务器" class="headerlink" title="2. 服务器"></a>2. 服务器</h2><blockquote>
+<h3 id="2-1-登录服务器"><a href="#2-1-登录服务器" class="headerlink" title="2.1 登录服务器"></a>2.1 登录服务器</h3><p>&nbsp;&nbsp;可以接收处理客户端的请求。</p>
+<blockquote>
+<ul>
+<li>更新好友列表</li>
+<li>更新用户在线状态</li>
+<li>个人资料更新</li>
+<li>下线</li>
+</ul>
+</blockquote>
+<h3 id="2-2-注册服务器"><a href="#2-2-注册服务器" class="headerlink" title="2.2 注册服务器"></a>2.2 注册服务器</h3><blockquote>
+<ul>
+<li>接受注册请求</li>
+</ul>
+</blockquote>
+<h3 id="2-3-消息转发服务器"><a href="#2-3-消息转发服务器" class="headerlink" title="2.3 消息转发服务器"></a>2.3 消息转发服务器</h3><blockquote>
+<ul>
+<li>处理消息转发</li>
+<li>处理心跳包，更新用户的IP</li>
+</ul>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="3-架构"><a href="#3-架构" class="headerlink" title="3. 架构"></a>3. 架构</h2><ul>
+<li>传统的浏览器/服务器架构<blockquote>
+<p><img src="/img/plea/bs.png" alt="图片"></p>
+</blockquote>
+</li>
+<li>我的聊天软件架构<blockquote>
+<p><img src="/img/plea/cs.png" alt="图片"></p>
+</blockquote>
+</li>
+</ul>
+<p>数据库的设计</p>
+<blockquote>
+<p>两张表<br>1.用户信息表<br>2.好友信息表</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="4-业务逻辑"><a href="#4-业务逻辑" class="headerlink" title="4. 业务逻辑"></a>4. 业务逻辑</h2><blockquote>
+<p>-登录流程：<img src="/img/plea/loginonline.png" alt="图片"></p>
+</blockquote>
+<blockquote>
+<p>-在线状态: <img src="/img/plea/online.png" alt="图片"></p>
+</blockquote>
+<blockquote>
+<p>-在线聊天: <img src="/img/plea/chatonline.png" alt="图片"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="5-TCP-UDP，Socket"><a href="#5-TCP-UDP，Socket" class="headerlink" title="5. TCP,UDP，Socket"></a>5. TCP,UDP，Socket</h2><blockquote>
+<p>TCP</p>
+<blockquote>
+<p>持续稳定，面向连接，传递的消息不能过大，慢</p>
+</blockquote>
+<p>UDP</p>
+<blockquote>
+<p>无连接,速度快，不稳定</p>
+</blockquote>
+<p>Socket</p>
+<blockquote>
+<p>网络编程</p>
+</blockquote>
+<p>对于Socket与TCP,UDP的关系是怎么样的呢？我之前一直以为是TCP,UDP是基于Socket编写的，后来查资料得知：</p>
+<blockquote>
+<p>TCP/IP只是一个协议栈，就像操作系统的运行机制一样，必须要具体实现，同时还要提供对外的操作接口。就像操作系统会提供标准的编程接口，比如Win32编程接口一样，TCP/IP也必须对外提供编程接口，这就是Socket编程接口。socket跟TCP/IP并没有必然的联系。Socket编程接口在设计的时候，就希望也能适应其他的网络协议。所以，socket的出现只是可以更方便的使用TCP/IP协议栈而已，其对TCP/IP进行了抽象，形成了几个最基本的函数接口。比如create，listen，accept，connect，read和write等等。</p>
+</blockquote>
+<p>前人已经设计好了TCP/IP协议，要是让我们直接用实在是太麻烦了，就有了socket。<b>socket只是一组接口</b>，方便我们使用TCP/IP协议。</p>
+<p><b>服务器的一个端口是可以处理多个tcp连接的。</b>这个还困扰了我很久，因为连接登录服务器是要利用服务器端的端口，我开始以为一个TCP连接会占用一个端口，那么多个用户的连接该如何处理，一个个的分配端口是不够用的，这当中的并发问题又该如何处理呢，原来一个服务器的一个端口是可以处理多个TCP连接的，为了区别不同的连接正好还用到了socket套接字。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="6-并发"><a href="#6-并发" class="headerlink" title="6. 并发"></a>6. 并发</h2><blockquote>
+<p>为了优化一个并发问题，特地去了解了一下线程池，来处理并发问题。<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPMessageServer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">private</span> DatagramPacket packet = <span class="keyword">null</span>;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">UDPMessageServer</span><span class="params">(DatagramPacket packet)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.packet = packet;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DatagramSocket datagramSocket = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动服务器</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">openServer</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">            datagramSocket = <span class="keyword">new</span> DatagramSocket(<span class="number">4003</span>);<span class="comment">// 4003端口</span></span><br><span class="line">            <span class="comment">// 制作线程池</span></span><br><span class="line">            ExecutorService execute = Executors.newFixedThreadPool(<span class="number">1000</span>);</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="comment">// 等待客户端的数据</span></span><br><span class="line">                <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">10</span>];</span><br><span class="line">                DatagramPacket datagramPacket = <span class="keyword">new</span> DatagramPacket(b, b.length);</span><br><span class="line">                datagramSocket.receive(datagramPacket);</span><br><span class="line">                <span class="comment">////////////////////////// ///////////////////</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 数据一到手，立马建立一个线程处理</span></span><br><span class="line">                execute.execute(<span class="keyword">new</span> UDPMessageServer(datagramPacket));</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="7-心跳包"><a href="#7-心跳包" class="headerlink" title="7. 心跳包"></a>7. 心跳包</h2><blockquote>
+<p>用来检测用户是否在线,维护用户的socket信息。client的意外断开，server是不知道的。这样可以减少负载，节约资源。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="8-分包"><a href="#8-分包" class="headerlink" title="8. 分包"></a>8. 分包</h2><blockquote>
+<p><b>DAO</b></p>
+<blockquote>
+<p>UserDAO</p>
+</blockquote>
+<p><b>DAOImpl</b></p>
+<blockquote>
+<p>UserDAOImpl</p>
+</blockquote>
+<p><b>entity</b></p>
+<blockquote>
+<p>Config<br>Msg<br>UserInfo<br>UserInfo2<br>UserInfoOnline</p>
+</blockquote>
+<p>Exception</p>
+<blockquote>
+<p>PasswordException<br>StateException<br>UsernameException<br>UsernameNotFoundException</p>
+</blockquote>
+<p>server</p>
+<blockquote>
+<p>LoginServer<br>RegServer<br>Start<br>UDPMessageServer</p>
+</blockquote>
+<p>service</p>
+<blockquote>
+<p>FriendSelectService<br>MessagePool<br>MessageRegService.<br>MessageService<br>NetService<br>UserOnlineList<br>UserService</p>
+</blockquote>
+<p>UI</p>
+<blockquote>
+<p>ChatFrame<br>FaceJPanel<br>FaceUserJPanel<br>FriendListDialog<br>friendListJPanel<br>LoginDialog<br>PersonalDataFrame<br>RegistDialog<br>SelectFriendsFrame<br>UserListJPanel</p>
+</blockquote>
+<p>Util</p>
+<blockquote>
+<p>DBManager<br>Utils</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="9-后续"><a href="#9-后续" class="headerlink" title="9. 后续"></a>9. 后续</h2><blockquote>
+<ul>
+<li>其实是有很多地方是有问题的，bug就不一一列举了，等下次有时间了，可以二次开发一下。</li>
+<li>这个聊天目前还不能用，我已经找到问题所在了，写之前一定要理清楚架构什么的。</li>
+<li>加一个多人聊天。</li>
+<li>C/S与B/S写起来，思路上是大同小异，但是同样的功能C/S端学起来要麻烦一些。都要归功与tomcat的作用。</li>
+</ul>
+</blockquote>
+</blockquote>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-界面"><span class="toc-text">1. 界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-服务器"><span class="toc-text">2. 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-登录服务器"><span class="toc-text">2.1 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-注册服务器"><span class="toc-text">2.2 注册服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-消息转发服务器"><span class="toc-text">2.3 消息转发服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-架构"><span class="toc-text">3. 架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-业务逻辑"><span class="toc-text">4. 业务逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-TCP-UDP，Socket"><span class="toc-text">5. TCP,UDP，Socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-并发"><span class="toc-text">6. 并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-心跳包"><span class="toc-text">7. 心跳包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-分包"><span class="toc-text">8. 分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-后续"><span class="toc-text">9. 后续</span></a></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 孙超</div>
+      
+        <div>
+          原文链接: 
+          <a href target="_blank">http://oj.ctgu.work/passages/plea/</a>
+        </div>
+      
+      <div>
+        转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/项目/"><i class="fa fa-tags"></i>项目</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">博客推荐</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://me.csdn.net/dfgdgfbb/" target="_blank">王哥</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/cx776474961/" target="_blank">cx</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: imsunchao@gmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/passages/mybatis-base1/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

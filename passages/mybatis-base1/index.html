@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Chase">
+  
+  
+  <title>mybatis-----一些简单的概念和配置 | Chase</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="mybatis学习笔记,">
+  
+
+  
+  <meta name="description" content="这里是Chase拉">
+
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":null,"appkey":null,"comment":false,"count":true},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2019-04-18",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Chase",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">Chase</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 那些路上的脚印，永远不会被隐藏</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://shanqianyouyu.github.io/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-26
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    mybatis-----一些简单的概念和配置
+  </h1>
+  
+  <article class="passage-article">
+    <blockquote>
+<p>学习mybatis过程中做的一点笔记，一方面有助于学习，一方面方便捡起来。</p>
+</blockquote>
+<h4 id="1-类型别名是为-Java-类型设置一个短的名字。-它只和-XML-配置有关，存在的意义仅在于用来减少类完全限定名的冗余。"><a href="#1-类型别名是为-Java-类型设置一个短的名字。-它只和-XML-配置有关，存在的意义仅在于用来减少类完全限定名的冗余。" class="headerlink" title="1.类型别名是为 Java 类型设置一个短的名字。 它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。"></a>1.类型别名是为 Java 类型设置一个短的名字。 它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。</h4><p>例如：(mapper文件中)<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=<span class="string">"listAll"</span> resultType=<span class="string">"hello.User"</span>&gt;</span><br><span class="line">	SELECT id,name,salary FROM t_user</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p> <b>resultType=”hello.User”</b>  如果包名很长，（此处包名是hello，比较短）那么不是写一堆吗，很麻烦就有了<b>别名</b>，mybatis定义在mybatis-config中.</p>
+<p>上面的别名是精确到类，如果类很多，那么还是相对麻烦了，就有了指定包名，MyBatis 会在包名下面搜索需要的 Java Bean<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">  &lt;<span class="keyword">package</span> name=<span class="string">"domain.blog"</span>/&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br></pre></td></tr></table></figure></p>
+<p>每一个在包 domain.blog 中的 Java Bean，在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名。如果还是想在此基础上，将名字改成自己像定义的名字，比如 domain.blog.Author 的别名为 author；若有注解，则别名为其注解值。例子如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Alias</span>(<span class="string">"author"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Author</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一般为了方便看，所以是不会起自己的名字，最好就是类名，易于辨别，避免使用此注解。</p>
+<h4 id="2-结果映射"><a href="#2-结果映射" class="headerlink" title="2.结果映射"></a>2.结果映射</h4><p>如果忘记写 <b>resultType=”int”</b>抛出以下异常<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cause: org.apache.ibatis.executor.ExecutorException: A query was run and no Result Maps were found <span class="keyword">for</span> the Mapped Statement <span class="string">'hello.UserMapper.queryForCount'</span>.  It<span class="string">'s likely that neither a Result Type nor a Result Map was specified.</span></span><br></pre></td></tr></table></figure></p>
+<p>找不到结果映射类型匹配结果</p>
+<h4 id="3-resultMap-与-resultType"><a href="#3-resultMap-与-resultType" class="headerlink" title="3.resultMap 与 resultType"></a>3.resultMap 与 resultType</h4><p>mybatis操作中，resultType经常用于存放一个对象，resultMap则是处理结果集(表)中的resultType列名和表对象中的属性名称不匹配。<br>数据库建表：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`t_user`</span> (</span><br><span class="line">  <span class="string">`t_id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`t_name`</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`t_salary`</span> <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">8</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_0900_ai_ci;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Long id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> BigDecimal salary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时直接用resultType时会报错的,可以使用以下方法处理。</p>
+<h5 id="1-sql语句处理"><a href="#1-sql语句处理" class="headerlink" title="1) sql语句处理"></a>1) sql语句处理</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=<span class="string">"listAll"</span> resultType=<span class="string">"user"</span>&gt;</span><br><span class="line">		SELECT t_id as id,t_name as name,t_salary as salary FROM t_user</span><br><span class="line">&lt;/select&gt;</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<h5 id="2-resultMap-：-结果集合的映射"><a href="#2-resultMap-：-结果集合的映射" class="headerlink" title="2) resultMap ： 结果集合的映射"></a>2) resultMap ： 结果集合的映射</h5><pre><code>id: 当前Mapper文件中的resultMap的唯一名称
+type: 把结果集中的每一行数据封装成什么类型的对象
+
+子元素: 
+    id: 功能和result有一模一样，如果是主键建议使用id元素,提升性能
+    result: 匹配对象中的哪一个属性对应表中的哪一个列
+</code></pre><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   &lt;!-- 配置--&gt;</span><br><span class="line">   &lt;resultMap type=<span class="string">"User"</span> id=<span class="string">"BaseResultMap"</span>&gt;</span><br><span class="line">&lt;id column=<span class="string">"id"</span> property=<span class="string">"id"</span>/&gt;</span><br><span class="line">&lt;result column=<span class="string">"name"</span> property=<span class="string">"name"</span>/&gt;</span><br><span class="line">&lt;result column=<span class="string">"salary"</span> property=<span class="string">"salary"</span>/&gt;</span><br><span class="line">   &lt;/resultMap&gt;</span><br><span class="line"></span><br><span class="line">   &lt;!--引用--&gt;</span><br><span class="line">   &lt;select id=<span class="string">"listAll"</span> resultMap=<span class="string">"BaseResultMap"</span>&gt;</span><br><span class="line">	SELECT t_id,t_name,t_salary FROM t_user</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="4-查询表中的部分列映射对象使用map"><a href="#4-查询表中的部分列映射对象使用map" class="headerlink" title="4.查询表中的部分列映射对象使用map"></a>4.查询表中的部分列映射对象使用map</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询表中一行的所有属性</span></span><br><span class="line">&lt;select id=<span class="string">"get"</span> resultType=<span class="string">"hello.User"</span>&gt;</span><br><span class="line">	SELECT id,name,salary FROM t_user WHERE id = #&#123;id&#125;</span><br><span class="line">&lt;/select&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询表中一行的部分属性</span></span><br><span class="line">&lt;select id=<span class="string">"queryForMap"</span> resultType=<span class="string">"map"</span>&gt;</span><br><span class="line">	SELECT id,name FROM t_user</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5-properties的使用"><a href="#5-properties的使用" class="headerlink" title="5.properties的使用"></a>5.properties的使用</h4><p>比较简单的就是放在文件的首部，后面的引用就是直接 <strong>${<em>name</em>}</strong><br>例如：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">	&lt;property name=<span class="string">"driver"</span> value=<span class="string">"com.mysql.cj.jdbc.Driver"</span>/&gt;</span><br><span class="line">    &lt;!--至于这个为什么这么长，是mysql版本的问题--&gt;</span><br><span class="line">	&lt;property name=<span class="string">"url"</span> value=<span class="string">"jdbc:mysql://localhost:3306/stu?useSSL=false&amp;amp;serverTimezone=GMT%2B8"</span>/&gt;</span><br><span class="line">	&lt;property name=<span class="string">"username"</span> value=<span class="string">"root"</span>/&gt;</span><br><span class="line">	&lt;property name=<span class="string">"password"</span> value=<span class="string">"xxxxx"</span>/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
+<p>properties比较好就是在于可以引用外部文件<br>例如创建一个<strong>db.properties</strong>文件,<strong>记住不要多空格什么，会出错的。</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#key=value</span><br><span class="line">driver=com.mysql.cj.jdbc.Driver</span><br><span class="line">url=jdbc:mysql:<span class="comment">//localhost:3306/stu?useSSL=false&amp;serverTimezone=GMT%2B8 </span></span><br><span class="line">username=root</span><br><span class="line">password=xxxxxx</span><br></pre></td></tr></table></figure></p>
+<p>引用该值加入这个(注意路径，我这个引入文件和被引入文件是在一个文件夹下的)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- properties加载外部文件 --&gt;</span><br><span class="line">&lt;properties resource=<span class="string">"db.properties"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-Mapper"><a href="#6-Mapper" class="headerlink" title="6.Mapper"></a>6.Mapper</h4><p>先上代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查询t_user表中的结果总数</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">testGetCount</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		InputStream in = Resources.getResourceAsStream(<span class="string">"mybatis-config.xml"</span>);</span><br><span class="line">		<span class="comment">// 2.创建Sqlsessionfactory对象。好比是DataSource</span></span><br><span class="line">		SqlSessionFactory factory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(in);</span><br><span class="line">		<span class="comment">// 3.创建SqlSession对象，好比是Connection</span></span><br><span class="line">		SqlSession session = factory.openSession();</span><br><span class="line">       <span class="comment">//使用namespace.id的方式去找到SQL元素，并执行SQL语句</span></span><br><span class="line">		<span class="keyword">int</span> rows = session.selectOne(<span class="string">"hello.UserMapper.queryForCount"</span>);</span><br><span class="line">		session.close();</span><br><span class="line">		System.out.println(rows);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 查询t_user表中的 id 列和 name 列</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">testGetMap</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		InputStream in = Resources.getResourceAsStream(<span class="string">"mybatis-config.xml"</span>);</span><br><span class="line">		SqlSessionFactory factory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(in);</span><br><span class="line">		SqlSession session = factory.openSession();</span><br><span class="line">		List&lt;Map&lt;String, Object&gt;&gt; us = session.selectList(<span class="string">"hello.UserMapper.queryForMap"</span>, <span class="number">1</span>);</span><br><span class="line">		<span class="keyword">for</span> (Map&lt;String, Object&gt; map : us) &#123;</span><br><span class="line">			System.out.println(map);</span><br><span class="line">		&#125;</span><br><span class="line">		session.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之前都是使用namespace.id的方法去找到mapper.xml中的SQL元素，并执行SQL语句<br>这里有几个不足：</p>
+<ul>
+<li>传入的参数是String类型的参数，写错的时候只能在运行的时候发现，例如：<blockquote>
+<p>hello.UserMapper.queryForMap<br>hello.USerMapper.queryForMap</p>
+</blockquote>
+</li>
+<li>传入MyBatis需要的参数的类型是不被检查的，因为Sqlsession中传递的参数类型都是Object类型</li>
+<li>每一个操作的代码模板是一样的，见上，只有中间的操作语句不同。</li>
+</ul>
+<p>解决方案:使用Mapper接口，类似DAO接口，在Mapper接口中去定义每一个操作方法</p>
+<p>Mapper组件: Mapper接口 + Mapper文件</p>
+<blockquote>
+<p>Mapper文件和Mapper接口应该放置在同一个包中<br>Mapper文件中的namespace就设置为对应的Mapper接口的全限定名称<br>Mapper文件中的操作元素的ID对应Mapper接口中的方法名称</p>
+</blockquote>
+<p>Mapper接口的原理: 动态代理<br>代理对象: class com.sun.proxy.$Proxy8<br>具体如何使用动态代理实现的以后再看。</p>
+<h4 id="7-处理mybatis查询传入多个参数"><a href="#7-处理mybatis查询传入多个参数" class="headerlink" title="7. 处理mybatis查询传入多个参数"></a>7. 处理mybatis查询传入多个参数</h4><ul>
+<li>使用JavaBen，就是将参数封装起来成一个对象例如:<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> lombok.Getter;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginVO</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String username;</span><br><span class="line">	<span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Mapper.java文件：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ClientMapper</span> </span>&#123;</span><br><span class="line">	<span class="comment">//方式一：把多个参数封装成为javabean</span></span><br><span class="line">	<span class="function">Client <span class="title">login1</span><span class="params">(LoginVO vo)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Mapper.xml配置文件<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">  PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line">  <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span><br><span class="line">&lt;mapper namespace=<span class="string">"mapper.ClientMapper"</span>&gt;</span><br><span class="line">	&lt;select id=<span class="string">"login1"</span> resultType=<span class="string">"client"</span>&gt;</span><br><span class="line">		SELECT id,username,password FROM client </span><br><span class="line">		WHERE username = #&#123;username&#125; AND password = #&#123;password&#125;</span><br><span class="line">	&lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure></p>
+<p>具体测试:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">testLogin1</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		LoginVO vo = <span class="keyword">new</span> LoginVO(<span class="string">"will"</span>, <span class="string">"1111"</span>);</span><br><span class="line">		SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">		ClientMapper clientMapper = session.getMapper(ClientMapper.class);</span><br><span class="line">		Client client = clientMapper.login1(vo);</span><br><span class="line">		session.close();</span><br><span class="line">		System.out.println(client);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>使用Map对象封装多个参数<br>Mapper.java文件：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ClientMapper</span> </span>&#123;</span><br><span class="line">	<span class="comment">//方式二:使用Map对象来封装多个参数</span></span><br><span class="line">	<span class="function">Client <span class="title">login2</span><span class="params">(Map&lt;String, Object&gt; paramMap)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Mapper.xml配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">  PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line">  <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;mapper namespace=<span class="string">"mapper.ClientMapper"</span>&gt;</span><br><span class="line">	&lt;select id=<span class="string">"login2"</span> resultType=<span class="string">"client"</span>&gt;</span><br><span class="line">		SELECT id,username,password FROM client </span><br><span class="line">		WHERE username = #&#123;username1&#125; AND password = #&#123;password1&#125;</span><br><span class="line">	&lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure></p>
+<p>查询测试:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">testLogin2</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Map&lt;String, Object&gt; paramMap = <span class="keyword">new</span> HashMap&lt;String,Object&gt;() &#123;</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">/**</span></span><br><span class="line"><span class="comment">				 * 这里的map中对应的key是与mapper.xml文件的查询语句一样的</span></span><br><span class="line"><span class="comment">				 */</span></span><br><span class="line">				<span class="keyword">this</span>.put(<span class="string">"username1"</span>, <span class="string">"lucy"</span>);</span><br><span class="line">				<span class="keyword">this</span>.put(<span class="string">"password1"</span>, <span class="string">"2222"</span>);</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">		ClientMapper clientMapper = session.getMapper(ClientMapper.class);</span><br><span class="line">		Client client = clientMapper.login2(paramMap);</span><br><span class="line">		session.close();</span><br><span class="line">		System.out.println(client);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意map中的key是与sql语句中查询语句对应的。见图 <img src="/img/mybatis/study-notes/1/7名称映射.png" alt="jpg"><br>这样的话，就避免产生了生成过多的javabean。在此基础上，进一步使用注解，就可以减少写map的代码。</p>
+<ul>
+<li>@Param注解<br>Mapper.java<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ClientMapper</span> </span>&#123;</span><br><span class="line">	<span class="comment">//方式三:使用Param注解，原理是方式二</span></span><br><span class="line">	<span class="function">Client <span class="title">login3</span><span class="params">(@Param(<span class="string">"u_name"</span>)</span> String username,@<span class="title">Param</span><span class="params">(<span class="string">"u_password"</span>)</span>  String password)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Mapper.xml配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">  PUBLIC <span class="string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line">  <span class="string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span><br><span class="line">&lt;mapper namespace=<span class="string">"mapper.ClientMapper"</span>&gt;</span><br><span class="line">	&lt;select id=<span class="string">"login3"</span> resultType=<span class="string">"client"</span>&gt;</span><br><span class="line">		SELECT id,username,password FROM client </span><br><span class="line">		WHERE username = #&#123;u_name&#125; AND password = #&#123;u_password&#125;</span><br><span class="line">	&lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure></p>
+<p>查询测试:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">testLogin3</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		SqlSession session = MyBatisUtil.getSession();</span><br><span class="line">		ClientMapper clientMapper = session.getMapper(ClientMapper.class);</span><br><span class="line">		Client client = clientMapper.login3(<span class="string">"will"</span>,<span class="string">"1111"</span>);</span><br><span class="line">		session.close();</span><br><span class="line">		System.out.println(client);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>少了一大段map对象的创建，是不是清爽了很多，其实内部也是利用方式二，map完成的。这里也要注意名称映射，见图<br><img src="/img/mybatis/study-notes/1/7名称映射2.png" alt="jpg"></p>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-类型别名是为-Java-类型设置一个短的名字。-它只和-XML-配置有关，存在的意义仅在于用来减少类完全限定名的冗余。"><span class="toc-text">1.类型别名是为 Java 类型设置一个短的名字。 它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-结果映射"><span class="toc-text">2.结果映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-resultMap-与-resultType"><span class="toc-text">3.resultMap 与 resultType</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-sql语句处理"><span class="toc-text">1) sql语句处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-resultMap-：-结果集合的映射"><span class="toc-text">2) resultMap ： 结果集合的映射</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-查询表中的部分列映射对象使用map"><span class="toc-text">4.查询表中的部分列映射对象使用map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-properties的使用"><span class="toc-text">5.properties的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Mapper"><span class="toc-text">6.Mapper</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-处理mybatis查询传入多个参数"><span class="toc-text">7. 处理mybatis查询传入多个参数</span></a></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 孙超</div>
+      
+        <div>
+          原文链接: 
+          <a href target="_blank">http://oj.ctgu.work/passages/mybatis-base1/</a>
+        </div>
+      
+      <div>
+        转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/mybatis学习笔记/"><i class="fa fa-tags"></i>mybatis学习笔记</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">博客推荐</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://me.csdn.net/dfgdgfbb/" target="_blank">王哥</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/cx776474961/" target="_blank">cx</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: imsunchao@gmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/passages/mybatis-base2/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/passages/plea/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>
