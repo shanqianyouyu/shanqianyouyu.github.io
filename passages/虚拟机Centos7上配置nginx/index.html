@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Chase">
+  
+  
+  <title>虚拟机Centos7上配置nginx | Chase</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="nginx,">
+  
+
+  
+  <meta name="description" content="这里是Chase拉">
+
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  
+    <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"gQuuMEsq37q4DsnhTauYOsPc-gzGzoHsz","appkey":"PG39cJtCXneMhQDdmjIx9EqO","comment":true,"count":true},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2019-04-18",
+    passwords: ["18f9e58fdb6b216c32c36b180d460fb1c53fd88cb298cc12c8177c6229883091", ],
+    is_post: true,
+    lock: false,
+    author: "Chase",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">Chase</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 那些路上的脚印，永远不会被隐藏</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://shanqianyouyu.github.io/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-05-28
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    虚拟机Centos7上配置nginx
+  </h1>
+  
+    <div class="passage-cover">
+      <figure style="background-image:url(https://pic1.zhimg.com/v2-e68d524210343613129267bd2cb75a0d_1200x500.jpg);"></figure>
+    </div>
+  
+  <article class="passage-article">
+    <h1 id="1-nginx-入门"><a href="#1-nginx-入门" class="headerlink" title="1. nginx 入门"></a>1. nginx 入门</h1><h2 id="1-1-什么是nginx"><a href="#1-1-什么是nginx" class="headerlink" title="1.1 什么是nginx"></a>1.1 什么是nginx</h2><blockquote>
+<p>Nginx是一款高性能的http 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。由俄罗斯的程序设计师Igor Sysoev所开发，官方测试nginx能够支支撑5万并发链接，并且cpu、内存等资源消耗却非常低，运行非常稳定。</p>
+</blockquote>
+<h2 id="1-2-nginx的应用场景"><a href="#1-2-nginx的应用场景" class="headerlink" title="1.2 nginx的应用场景"></a>1.2 nginx的应用场景</h2><blockquote>
+<ul>
+<li>1 http服务器。Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。</li>
+<li>2 虚拟主机。可以实现在一台服务器虚拟出多个网站。例如个人网站使用的虚拟主机。</li>
+<li>3 反向代理，负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会因为某台服务器负载高宕机而某台服务器闲置的情况</li>
+</ul>
+</blockquote>
+<h1 id="2-在虚拟机Centos7下配置nginx"><a href="#2-在虚拟机Centos7下配置nginx" class="headerlink" title="2. 在虚拟机Centos7下配置nginx"></a>2. 在虚拟机Centos7下配置nginx</h1><blockquote>
+<p>我是用SecureCrt连接虚拟机操作的。</p>
+</blockquote>
+<h2 id="2-1-下载"><a href="#2-1-下载" class="headerlink" title="2.1 下载"></a>2.1 下载</h2><p>现在本地(windows)下<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">下载</a>，再传到SecureCrt上，下载后缀为 <strong>.tar.gz</strong></p>
+<h2 id="2-2-配置虚拟机的环境"><a href="#2-2-配置虚拟机的环境" class="headerlink" title="2.2 配置虚拟机的环境"></a>2.2 配置虚拟机的环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<p>依次为 <kbd>gcc环境</kbd>，<kbd>pcre库</kbd>（nginx的http模块使用pcre来解析正则表达式），<kbd>zlib库</kbd>（nginx使用zlib对http包的内容进行gzip），<kbd>openssl库</kbd>（OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。nginx不仅支持http协议，还支持https（即在ssl协议上传输http）)</p>
+<h2 id="2-3-上传到虚拟机上"><a href="#2-3-上传到虚拟机上" class="headerlink" title="2.3 上传到虚拟机上"></a>2.3 上传到虚拟机上</h2><p>默认上传的文件位置在，你的用户的文件夹下</p>
+<h2 id="2-4-解压文件"><a href="#2-4-解压文件" class="headerlink" title="2.4 解压文件"></a>2.4 解压文件</h2><p>以nginx-1.8.0版本为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf nginx-1.8.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-5-编译安装"><a href="#2-5-编译安装" class="headerlink" title="2.5 编译安装"></a>2.5 编译安装</h2><p>需在 /var 下创建/temp/nginx,注意看下面的路径，没有文件夹会报错<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> nginx-1.8.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">./configure \</span><br><span class="line">--prefix=/usr/<span class="built_in">local</span>/nginx \</span><br><span class="line">--pid-path=/var/run/nginx/nginx.pid \</span><br><span class="line">--lock-path=/var/lock/nginx.lock \</span><br><span class="line">--error-log-path=/var/<span class="built_in">log</span>/nginx/error.log \</span><br><span class="line">--http-log-path=/var/<span class="built_in">log</span>/nginx/access.log \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--http-client-body-temp-path=/var/temp/nginx/client \</span><br><span class="line">--http-proxy-temp-path=/var/temp/nginx/proxy \</span><br><span class="line">--http-fastcgi-temp-path=/var/temp/nginx/fastcgi \</span><br><span class="line">--http-uwsgi-temp-path=/var/temp/nginx/uwsgi \</span><br><span class="line">--http-scgi-temp-path=/var/temp/nginx/scgi</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>至此nginx已经安装成功了，在/usr/local 下生成了一个nginx文件夹</p>
+<h1 id="3-nginx的启动与停止"><a href="#3-nginx的启动与停止" class="headerlink" title="3. nginx的启动与停止"></a>3. nginx的启动与停止</h1><h2 id="3-1-启动nginx"><a href="#3-1-启动nginx" class="headerlink" title="3.1  启动nginx"></a>3.1  启动nginx</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/nginx/sbin</span><br><span class="line"></span><br><span class="line">./nginx</span><br></pre></td></tr></table></figure>
+<p>访问你的虚拟机IP，会发现 <b>Welcome to nginx!</b>的界面，如果503就去关闭你的防火墙吧.</p>
+<h2 id="3-2-查看进程"><a href="#3-2-查看进程" class="headerlink" title="3.2  查看进程"></a>3.2  查看进程</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost sbin]<span class="comment"># ps aux|grep nginx</span></span><br><span class="line"></span><br><span class="line">root      15484  0.0  0.0  24884   804 ?        Ss   04:43   0:00 nginx: master process ./nginx</span><br><span class="line">nobody    15485  0.0  0.1  27424  1568 ?        S    04:43   0:00 nginx: worker process</span><br><span class="line">root      15487  0.0  0.0 112708   980 pts/0    R+   04:44   0:00 grep --color=auto nginx</span><br></pre></td></tr></table></figure>
+<p>看到前两个即为正常启动</p>
+<h2 id="3-4-关闭进程"><a href="#3-4-关闭进程" class="headerlink" title="3.4  关闭进程"></a>3.4  关闭进程</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s stop</span><br><span class="line">./nginx -s quit</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>快速停止：<br>./nginx -s stop<br>此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程。</p>
+</li>
+<li><p>完整停止(建议使用)：<br>./nginx -s quit<br>此方式停止步骤是待nginx进程处理任务完毕进行停止。</p>
+</li>
+</ol>
+<h2 id="3-5-重启nginx"><a href="#3-5-重启nginx" class="headerlink" title="3.5  重启nginx"></a>3.5  重启nginx</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>
+<h1 id="4-nginx的配置"><a href="#4-nginx的配置" class="headerlink" title="4.  nginx的配置"></a>4.  nginx的配置</h1><h2 id="4-1-查看nginx配置"><a href="#4-1-查看nginx配置" class="headerlink" title="4.1 查看nginx配置"></a>4.1 查看nginx配置</h2><p>查看nginx的配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat -n /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-2-文件结构"><a href="#4-2-文件结构" class="headerlink" title="4.2 文件结构"></a>4.2 文件结构</h2><p>从第一个虚拟主机的例子可以看出nginx的配置文件结构如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line">events &#123;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br><span class="line">http&#123;</span><br><span class="line">   .......</span><br><span class="line">   server&#123;</span><br><span class="line">	.......</span><br><span class="line">	&#125;</span><br><span class="line">   server&#123;</span><br><span class="line">	.......</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个server就是一个虚拟主机.</p>
+<h2 id="4-3-配置"><a href="#4-3-配置" class="headerlink" title="4.3 配置"></a>4.3 配置</h2><p><kbd>/usr/local/nginx/conf/nginx.conf</kbd>下</p>
+<blockquote>
+<p>虚拟主机Ip以192.168.101.3为例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#配置虚拟主机aaa.test.com </span><br><span class="line">server &#123;</span><br><span class="line">		#监听的ip和端口，配置本机ip和端口</span><br><span class="line">        listen 192.168.101.3:80;		</span><br><span class="line">		#虚拟主机名称是aaa.test.com，请求域名aaa.test.com的url将由此server配置解析</span><br><span class="line">        server_name aaa.test.com;	 </span><br><span class="line">		#所有的请求都以/开始，所有的请求都可以匹配此location</span><br><span class="line">        location / &#123;</span><br><span class="line">		#使用root指令指定虚拟主机目录即网页存放目录</span><br><span class="line">		#比如访问http://ip/test.html将找到/usr/local/aaa_html/test.html</span><br><span class="line">		#比如访问http://ip/item/test.html将找到/usr/local/aaa_html/item/test.html</span><br><span class="line">                root /usr/local/aaa_html;	</span><br><span class="line">			    #指定欢迎页面，按从左到右顺序查找</span><br><span class="line">                index index.html index.htm;	</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">#配置虚拟主机bbb.test.com</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 192.168.101.3:80;</span><br><span class="line">        server_name bbb.test.com;</span><br><span class="line">        location / &#123;</span><br><span class="line">                root /usr/local/bbb_html;</span><br><span class="line">                index index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>修改以后重启nginx，访问 aaa.test.com, bbb.test.com试试。</p>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-nginx-入门"><span class="toc-text">1. nginx 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-什么是nginx"><span class="toc-text">1.1 什么是nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-nginx的应用场景"><span class="toc-text">1.2 nginx的应用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-在虚拟机Centos7下配置nginx"><span class="toc-text">2. 在虚拟机Centos7下配置nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-下载"><span class="toc-text">2.1 下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-配置虚拟机的环境"><span class="toc-text">2.2 配置虚拟机的环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-上传到虚拟机上"><span class="toc-text">2.3 上传到虚拟机上</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-解压文件"><span class="toc-text">2.4 解压文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-编译安装"><span class="toc-text">2.5 编译安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-nginx的启动与停止"><span class="toc-text">3. nginx的启动与停止</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-启动nginx"><span class="toc-text">3.1  启动nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-查看进程"><span class="toc-text">3.2  查看进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-关闭进程"><span class="toc-text">3.4  关闭进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-重启nginx"><span class="toc-text">3.5  重启nginx</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-nginx的配置"><span class="toc-text">4.  nginx的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-查看nginx配置"><span class="toc-text">4.1 查看nginx配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-文件结构"><span class="toc-text">4.2 文件结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-配置"><span class="toc-text">4.3 配置</span></a></li></ol></li></ol>
+  </div>
+</aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/nginx/"><i class="fa fa-tags"></i>nginx</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+      
+<div class="site-comment-contanier" data-plateform="leancloud">
+  
+    <p id="site-comment-info">
+      <i class="fa fa-spinner fa-spin"></i> 评论加载中
+    </p>
+    <div id="site-comment"></div>
+  
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">博客推荐</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://me.csdn.net/dfgdgfbb/" target="_blank">王哥</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/cx776474961/" target="_blank">cx</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: imsunchao@gmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/passages/初窥java反射/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+  <script async>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+  </script>
+
+
+
+
+    
+  </body>
+</html>
