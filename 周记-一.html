@@ -7,12 +7,12 @@
   <meta name="author" content="Chase">
   
   
-  <title>如何在局域网访问虚拟机 | Chase</title>
+  <title>周记(一) | Chase</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="虚拟机,Linux,">
+    <meta name="keywords" content="生活随笔,周记,">
   
 
   
@@ -167,8 +167,12 @@
   <div class="passage">
   <div class="passage-meta">
     <span>
-      <i class="fa fa-calendar"></i>2019-05-29
+      <i class="fa fa-calendar"></i>2019-06-24
     </span>
+    
+      <span>
+        | <a href="/categories/生活随笔/"><i class="fa fa-bookmark"></i>生活随笔</a>
+      </span>
     
     
       <span>
@@ -177,55 +181,11 @@
     
   </div>
   <h1 class="passage-title">
-    如何在局域网访问虚拟机
+    周记(一)
   </h1>
   
   <article class="passage-article">
-    <blockquote>
-<p>最近在弄虚拟机，就想着如何在局域网访问虚拟机。搭在局域网，利用虚拟机就可以实现一个服务器，感觉很有意思，就弄了弄，写下来记录一下。</p>
-</blockquote>
-<p>环境</p>
-<blockquote>
-<p>虚拟机VM : Centos7(NAT模式)<br>宿主机 : win10</p>
-</blockquote>
-<h2 id="1-查看虚拟机ip"><a href="#1-查看虚拟机ip" class="headerlink" title="1.查看虚拟机ip"></a>1.查看虚拟机ip</h2><p>为了助于观看，无用的信息我删除了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost sbin]<span class="comment"># ifconfig</span></span><br><span class="line"></span><br><span class="line">ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.74.226  netmask 255.255.255.0  broadcast 192.168.74.255</span><br><span class="line">        inet6 fe80::72b5:397c:3e0f:8a9f  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:0c:29:1d:01:22  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 4846  bytes 538314 (525.6 KiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 2791  bytes 1819310 (1.7 MiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure></p>
-<p>可以看到ip为<kbd>192.168.74.226</kbd></p>
-<h2 id="2-将虚拟机端口映射到宿主机端口"><a href="#2-将虚拟机端口映射到宿主机端口" class="headerlink" title="2. 将虚拟机端口映射到宿主机端口"></a>2. 将虚拟机端口映射到宿主机端口</h2><p>VM上: </p>
-<ol>
-<li>编辑 -&gt; 虚拟网络编辑器 -&gt; 更改设置(为了进入管理员权限) -&gt; 选中虚拟机(我的名称是 VMnet8 ) -&gt; NAT配置<br><img src="/img/如何在局域网访问虚拟机/nat配置.png" alt="nat配置"></li>
-<li>端口转发：添加 -&gt; 主机端口(1024以上)， 虚拟机IP，虚拟机端口(为了方便访问web项目，我填的是80) -&gt; 确认<br><img src="/img/如何在局域网访问虚拟机/端口配置.png" alt="端口配置"></li>
-</ol>
-<h2 id="3-宿主机配置"><a href="#3-宿主机配置" class="headerlink" title="3. 宿主机配置"></a>3. 宿主机配置</h2><ul>
-<li><ol>
-<li>进入高级安全 Windows Defender防火墙<br><img src="/img/如何在局域网访问虚拟机/宿主机端口配置.png" alt="宿主机端口配置"></li>
-</ol>
-</li>
-<li><ol start="2">
-<li>规则类型：选择端口，下一步</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>协议和端口：选择特定端口，依照步骤二 2 中，此处配置为<kbd>1300</kbd>，下一步</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>操作：选择允许连接，下一步</li>
-</ol>
-</li>
-<li><ol start="5">
-<li>配置文件： 全选，下一步</li>
-</ol>
-</li>
-<li><ol start="6">
-<li>名称：名称 – 局域网映射虚拟机(自己随便取拉，方便自己看就行了)，描述–自己写吧</li>
-</ol>
-</li>
-<li><ol start="7">
-<li>完成</li>
-</ol>
-</li>
-</ul>
-<h2 id="4-访问虚拟机对应端口的项目"><a href="#4-访问虚拟机对应端口的项目" class="headerlink" title="4. 访问虚拟机对应端口的项目"></a>4. 访问虚拟机对应端口的项目</h2><p>路径为：<kbd>宿主机ip:端口</kbd><br>依照上文配置: 宿主机ip:1300，你就可以在局域网访问试试了。</p>
+    <p style="text-indent:2em;">马上就要大三了，压力越来越大了。有时候觉得自己的目标越来越清晰，但是又好像越来越迷茫了，也不知道是考研好还是找工作。虽然每天感觉很忙，但是感觉好像没学到什么实质的东西。一直说要学好基础，但是确实连jsp九大内置对象都记不太清。一直嚷嚷着要学spring源码，但是好像只是学了一部分。看书也是只看到一半。什么东西都是浅尝辄止，学了一点，但是好像都是没有深入，每次说着先了解再深入，但是深入这一步总是都一半好像就完了。有时候真的是感觉自己好像言行不太一致。</p><br><p style="text-indent:2em;">今天是数据库考试前夕，真的是很讨厌讨厌复习，每次复习都要搞一些别的东西再去复习，结果复习不完。。。现在像记录一些琐碎的东西，希望能起到鞭策自己的作用。我自己还是比较倾向于找工作的，真的很讨厌学习线代，高数，政治什么的，实在是提不起兴趣，而且对待考研的话，其实也没有一个明确的目标。在这一点我十分佩服我的师傅的，完全凭借自己的爱好学习了安全方面的知识，如果是我肯定远远达不到他的高度，而且目标也很明确，学习的热情也很高。而对于我，好像有点混的感觉。前一段时间也是在学习ssm的时候遇到各种bug十分沮丧，改也不会改，学长也都不在，进度就十分缓慢。再想想我师傅，%%%%。</p><br><p style="text-indent:2em;">上周就是在学计算机网络，感觉还行，也不是完全在背，带着理解在学习，因为计网本身就是比较重要的东西，配置服务器什么的，或者学一些Linux相关的东西，还是要知道一些相关的知识还是要通透一些。这周复习数据库看能不能学一下数据库一些东西。再就是跟着写一个淘淘商城的项目，其实主要也不是学习怎么写后台，感觉主要是学一些别的，一些开发的习惯，一些之前没有学的东西，比如说nginx使用，负载均衡，图片服务器fastdfs搭建，还有后面的消息队列和redis。其实主要也是作了一些了解。后面一定要记得学一些更加重要的东西，比如说，nginx更多的配置，实现一些别的功能，分布式的fastdfs怎么搭建，以及一些为什么使用这些东西，和一些原理。多多总结，多多提高。</p>
 
   </article>
   <aside class="table-content" id="site-toc">
@@ -234,16 +194,14 @@
     <span>目录</span>
   </div>
   <div class="table-content-main">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-查看虚拟机ip"><span class="toc-text">1.查看虚拟机ip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-将虚拟机端口映射到宿主机端口"><span class="toc-text">2. 将虚拟机端口映射到宿主机端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-宿主机配置"><span class="toc-text">3. 宿主机配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-访问虚拟机对应端口的项目"><span class="toc-text">4. 访问虚拟机对应端口的项目</span></a></li></ol>
+    
   </div>
 </aside>
   
   
     <div class="passage-tags">
      
-      <a href="/tags/虚拟机/"><i class="fa fa-tags"></i>虚拟机</a>
-     
-      <a href="/tags/Linux/"><i class="fa fa-tags"></i>Linux</a>
+      <a href="/tags/周记/"><i class="fa fa-tags"></i>周记</a>
     
     </div>
   
@@ -344,10 +302,10 @@
 
 <div class="bottom-bar">
   <div class="bottom-bar-left">
-    <a href="/Linux常用指令.html" data-enable="true">
+    <a href="javascript:void(0);" data-enable="false">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="/虚拟机Centos7上配置nginx.html" data-enable="true">
+    <a href="/基于nginx和FastDFS搭建图片服务器.html" data-enable="true">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
