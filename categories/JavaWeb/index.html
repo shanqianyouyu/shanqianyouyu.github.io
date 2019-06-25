@@ -7,12 +7,12 @@
   <meta name="author" content="Chase">
   
   
-  <title>如何在局域网访问虚拟机 | Chase</title>
+  <title>分类: JavaWeb | Chase</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="Linux相关,虚拟机,Linux,">
+    <meta name="keywords" content="Hexo, Theme-AD">
   
 
   
@@ -45,7 +45,7 @@
     welcome: {"enable":true,"interval":30},
     start_time: "2019-04-18",
     passwords: ["18f9e58fdb6b216c32c36b180d460fb1c53fd88cb298cc12c8177c6229883091", ],
-    is_post: true,
+    is_post: false,
     lock: false,
     author: "Chase",
     share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
@@ -163,110 +163,40 @@
 </nav>
 <div id="site-process"></div>
     <main>
-      
-  <div class="passage">
-  <div class="passage-meta">
-    <span>
-      <i class="fa fa-calendar"></i>2019-05-29
-    </span>
-    
-      <span>
-        | <a href="/categories/Linux相关/"><i class="fa fa-bookmark"></i>Linux相关</a>
-      </span>
-    
-    
-      <span>
-        | <i class="fa fa-unlock-alt"></i>UNLOCK
-      </span>
-    
-  </div>
-  <h1 class="passage-title">
-    如何在局域网访问虚拟机
-  </h1>
+      <div class="timeline">
+  <h2 class="timeline-title">系列: JavaWeb</h2>
   
-  <article class="passage-article">
-    <blockquote>
-<p>最近在弄虚拟机，就想着如何在局域网访问虚拟机。搭在局域网，利用虚拟机就可以实现一个服务器，感觉很有意思，就弄了弄，写下来记录一下。</p>
-</blockquote>
-<p>环境</p>
-<blockquote>
-<p>虚拟机VM : Centos7(NAT模式)<br>宿主机 : win10</p>
-</blockquote>
-<h2 id="1-查看虚拟机ip"><a href="#1-查看虚拟机ip" class="headerlink" title="1.查看虚拟机ip"></a>1.查看虚拟机ip</h2><p>为了助于观看，无用的信息我删除了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost sbin]<span class="comment"># ifconfig</span></span><br><span class="line"></span><br><span class="line">ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.74.226  netmask 255.255.255.0  broadcast 192.168.74.255</span><br><span class="line">        inet6 fe80::72b5:397c:3e0f:8a9f  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:0c:29:1d:01:22  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 4846  bytes 538314 (525.6 KiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 2791  bytes 1819310 (1.7 MiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure></p>
-<p>可以看到ip为<kbd>192.168.74.226</kbd></p>
-<h2 id="2-将虚拟机端口映射到宿主机端口"><a href="#2-将虚拟机端口映射到宿主机端口" class="headerlink" title="2. 将虚拟机端口映射到宿主机端口"></a>2. 将虚拟机端口映射到宿主机端口</h2><p>VM上: </p>
-<ol>
-<li>编辑 -&gt; 虚拟网络编辑器 -&gt; 更改设置(为了进入管理员权限) -&gt; 选中虚拟机(我的名称是 VMnet8 ) -&gt; NAT配置<br><img src="/img/如何在局域网访问虚拟机/nat配置.png" alt="nat配置"></li>
-<li>端口转发：添加 -&gt; 主机端口(1024以上)， 虚拟机IP，虚拟机端口(为了方便访问web项目，我填的是80) -&gt; 确认<br><img src="/img/如何在局域网访问虚拟机/端口配置.png" alt="端口配置"></li>
-</ol>
-<h2 id="3-宿主机配置"><a href="#3-宿主机配置" class="headerlink" title="3. 宿主机配置"></a>3. 宿主机配置</h2><ul>
-<li><ol>
-<li>进入高级安全 Windows Defender防火墙<br><img src="/img/如何在局域网访问虚拟机/宿主机端口配置.png" alt="宿主机端口配置"></li>
-</ol>
-</li>
-<li><ol start="2">
-<li>规则类型：选择端口，下一步</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>协议和端口：选择特定端口，依照步骤二 2 中，此处配置为<kbd>1300</kbd>，下一步</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>操作：选择允许连接，下一步</li>
-</ol>
-</li>
-<li><ol start="5">
-<li>配置文件： 全选，下一步</li>
-</ol>
-</li>
-<li><ol start="6">
-<li>名称：名称 – 局域网映射虚拟机(自己随便取拉，方便自己看就行了)，描述–自己写吧</li>
-</ol>
-</li>
-<li><ol start="7">
-<li>完成</li>
-</ol>
-</li>
-</ul>
-<h2 id="4-访问虚拟机对应端口的项目"><a href="#4-访问虚拟机对应端口的项目" class="headerlink" title="4. 访问虚拟机对应端口的项目"></a>4. 访问虚拟机对应端口的项目</h2><p>路径为：<kbd>宿主机ip:端口</kbd><br>依照上文配置: 宿主机ip:1300，你就可以在局域网访问试试了。</p>
-
-  </article>
-  <aside class="table-content" id="site-toc">
-  <div class="table-content-title">
-    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
-    <span>目录</span>
-  </div>
-  <div class="table-content-main">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-查看虚拟机ip"><span class="toc-text">1.查看虚拟机ip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-将虚拟机端口映射到宿主机端口"><span class="toc-text">2. 将虚拟机端口映射到宿主机端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-宿主机配置"><span class="toc-text">3. 宿主机配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-访问虚拟机对应端口的项目"><span class="toc-text">4. 访问虚拟机对应端口的项目</span></a></li></ol>
-  </div>
-</aside>
-  
-  
-    <div class="passage-tags">
-     
-      <a href="/tags/虚拟机/"><i class="fa fa-tags"></i>虚拟机</a>
-     
-      <a href="/tags/Linux/"><i class="fa fa-tags"></i>Linux</a>
     
+      <h3 class="timeline-subtitle">2019</h3>
+    
+    <div class="timeline-item">
+      <time>2019-05-02</time>
+      <a target="_self" href="/mybatis-base4.html">mybatis-----缓存</a>
+    </div>
+  
+    
+    <div class="timeline-item">
+      <time>2019-05-02</time>
+      <a target="_self" href="/mybatis-base3.html">mybatis-----对象关系</a>
+    </div>
+  
+    
+    <div class="timeline-item">
+      <time>2019-05-01</time>
+      <a target="_self" href="/mybatis-base2.html">mybatis-----动态sql</a>
+    </div>
+  
+    
+    <div class="timeline-item">
+      <time>2019-04-26</time>
+      <a target="_self" href="/mybatis-base1.html">mybatis-----一些简单的概念和配置</a>
     </div>
   
 </div>
-
     </main>
 	<!-- 页面点击小红心 -->
 	<script type="text/javascript" src="/js/love.js"></script>
 
-    
-      
-<div class="site-comment-contanier" data-plateform="leancloud">
-  
-    <p id="site-comment-info">
-      <i class="fa fa-spinner fa-spin"></i> 评论加载中
-    </p>
-    <div id="site-comment"></div>
-  
-</div>
     
     <div class="site-footer-wrapper">
   <footer class="site-footer">
@@ -348,19 +278,19 @@
 
 <div class="bottom-bar">
   <div class="bottom-bar-left">
-    <a href="/Linux常用指令.html" data-enable="true">
+    <a href="javascript:void(0);" data-enable="false">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="/虚拟机Centos7上配置nginx.html" data-enable="true">
+    <a href="javascript:void(0);" data-enable="false">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
   <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
       <i class="fa fa-bars"></i>
     </a>
     
-      <a href="#site-comment" data-enable="true">
+      <a href="javascript:void(0);" data-enable="false">
         <i class="fa fa-commenting"></i>
       </a>
     
