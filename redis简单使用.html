@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="K9Kc9nC902w9IT9WrD90X0j_JC-lo7h8zWfMcemjbAo">
+  <meta name="author" content="Chase">
+  
+  
+  <title>redis简单使用 | Chase</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Hexo, Theme-AD">
+  
+
+  
+  <meta name="description" content="这里是Chase拉">
+
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  
+    <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"gQuuMEsq37q4DsnhTauYOsPc-gzGzoHsz","appkey":"PG39cJtCXneMhQDdmjIx9EqO","comment":true,"count":true},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2019-04-18",
+    passwords: ["18f9e58fdb6b216c32c36b180d460fb1c53fd88cb298cc12c8177c6229883091", ],
+    is_post: true,
+    lock: false,
+    author: "Chase",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">Chase</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 那些路上的脚印，永远不会被隐藏</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://shanqianyouyu.github.io/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-08-05
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    redis简单使用
+  </h1>
+  
+  <article class="passage-article">
+    <pre><code>&gt; Redis：C语言编写的Nosql数据库(非关系数据库),数据保存在内存中。
+
+###
+特点：
+* 数据保存在内存中
+* 不定期持久化，保证数据安全
+* 跨语言
+* 支持集群
+
+|      | mysql | redis | memcache |
+|------|-------|-------|----------|
+| 类型   | 关系型   | 非关系型  | 非关系型     |
+| 存储位置 | 磁盘    | 磁盘和内存 | 内存       |
+| 存储过期 | 不支持   | 支持    | 支持       |
+| 读写性能 | 低     | 非常高   | 非常高      |
+
+&gt; redis支持的类型比memcache多
+
+##使用场景
+* 缓存(********可以做mybatis的二级缓存)
+* 计数器应用
+* 网站需要统计注册用户数，网站总浏览次数
+* 新浪微博转发数，点赞数
+(能自增，自减)
+
+* 实时防攻击系统：
+* 防暴力破解：试密码
+
+* 排行榜
+* 设定有效期(自动过期)
+* 自动去重应用(set数据结构)
+* 队列
+* 秒杀
+* 消息订阅系统
+
+## 结构
+
+* redis-benchmark.exe ：性能测试工具
+* redis-cli.exe ： 客户端
+* redis-server.exe : 服务端
+* redis-check-aof.exe : 检测持久化文件完好
+* redis.windows.conf : 配置文件 
+
+## redis使用
+
+### 启动redis服务：
+带配置文件启动
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server.exe redis.windows.conf</span><br></pre></td></tr></table></figure>
+
+关闭窗口则会关闭redis
+
+### 连接到redis
+cmd &gt; {% redis %} redis-cli ip地址 -p 端口号
+ip默认本地，-p默认6379
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli.exe -h 127.0.0.1 -p 6379</span><br></pre></td></tr></table></figure>
+
+### 基本用法
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#选中数据库，默认有0-15号数据库</span></span><br><span class="line">select num</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置一个key对应一个value</span></span><br><span class="line"><span class="built_in">set</span> key value</span><br><span class="line"></span><br><span class="line"><span class="comment">#取一个key对应的值</span></span><br><span class="line">get key</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置一个key的过期时间</span></span><br><span class="line">expire key seconds</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看一个key的剩余过期时间</span></span><br><span class="line">ttl key</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看所有的key</span></span><br><span class="line">keys *</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置多个key-value</span></span><br><span class="line">mset key1 value1 key2 value2</span><br><span class="line"></span><br><span class="line"><span class="comment">#根据key返回value</span></span><br><span class="line">mget key1 key2</span><br><span class="line"></span><br><span class="line"><span class="comment">#将key中存储的数据增1(key不存在，则初始化为0，再加1)</span></span><br><span class="line">incr key</span><br><span class="line"></span><br><span class="line"><span class="comment">#将key中存储的数字值减1(key不存在，则初始化为0.再减1)</span></span><br><span class="line">decr key</span><br><span class="line"></span><br><span class="line">incrBy key</span><br><span class="line">decrBy key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除key</span></span><br><span class="line">del key</span><br><span class="line"></span><br><span class="line"><span class="comment">#清除所有数据库</span></span><br><span class="line">flushall</span><br><span class="line"></span><br><span class="line"><span class="comment">#清除当前库</span></span><br><span class="line">flushdb</span><br></pre></td></tr></table></figure>
+
+### 设置密码
+在配置文件添加
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#此处密码设置为chase</span><br><span class="line">requirepass chase</span><br></pre></td></tr></table></figure>
+
+登录校验密码：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#密码认证</span></span><br><span class="line">auth chase</span><br></pre></td></tr></table></figure>
+
+## 配制文件
+以前没注意过，先给出。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 1k =&gt; 1000 bytes</span><br><span class="line"># 1kb =&gt; 1024 bytes</span><br><span class="line"># 1m =&gt; 1000000 bytes</span><br><span class="line"># 1mb =&gt; 1024*1024 bytes</span><br><span class="line"># 1g =&gt; 1000000000 bytes</span><br><span class="line"># 1gb =&gt; 1024*1024*1024 bytes</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#设置秒数，超过时间不操作则断开连接，0为不会断开</span><br><span class="line">timeout 0 </span><br><span class="line"></span><br><span class="line">#日志级别</span><br><span class="line">loglevel notice</span><br><span class="line"></span><br><span class="line">#日志文件位置 当前文件夹下logs文件夹下的redis.log文件下</span><br><span class="line">logfile ./logs/redis.log</span><br><span class="line"></span><br><span class="line">#设置数据库数量</span><br><span class="line">databases 16</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#持久化策略，900秒有一次改变就持久化一次，300秒内有10次改变就持久化一次，60秒有10000次改变就持久化一次</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line">#持久化文件的位置</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#是否开启持久化</span><br><span class="line">appendonly no</span><br></pre></td></tr></table></figure>
+
+### 对list集合的常用操作
+&gt; list看成是左右排列的集合
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#向列表中从左边推送两个值</span></span><br><span class="line">lpush key value1</span><br><span class="line">lpush key value2</span><br><span class="line"></span><br><span class="line"><span class="comment">#从左边显示 start 到 stop 的值，stop 为-1表示最后一个</span></span><br><span class="line">lrange key start stop</span><br><span class="line"></span><br><span class="line"><span class="comment">#左边弹出一个值</span></span><br><span class="line">lpop key</span><br><span class="line"></span><br><span class="line"><span class="comment">#根据count值移除列表key中与参数value对应的元素</span></span><br><span class="line">lrem key count value</span><br><span class="line"><span class="comment">#exp:</span></span><br><span class="line"><span class="comment">#删除student中，从左边数的第一个 zs</span></span><br><span class="line">lrem stuents 1 zs</span><br><span class="line"><span class="comment">#删除student中，从左边数的前两个 zs</span></span><br><span class="line">lrem stuents 2 zs</span><br><span class="line"><span class="comment">#删除student中，所有的张三</span></span><br><span class="line">lrem stuents 0 zs</span><br><span class="line"><span class="comment">#删除student中，从右边数的第一个 zs</span></span><br><span class="line">lrem stuents -1 zs</span><br><span class="line"><span class="comment">#删除student中，从右边数的前两个 zs</span></span><br><span class="line">lrem stuents -2 zs</span><br></pre></td></tr></table></figure>
+
+## Jedis操作redis
+
+### 简单直接操作
+导包:
+* commons-pool2-2.2.jar
+* jedis-2.5.2.jar
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 创建连接</span></span><br><span class="line">	Jedis connection = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">	<span class="comment">//登录密码</span></span><br><span class="line">	connection.auth(<span class="string">"chase"</span>);</span><br><span class="line">	<span class="comment">// 执行连接</span></span><br><span class="line">	connection.set(<span class="string">"name"</span>, <span class="string">"zs"</span>);</span><br><span class="line">	<span class="comment">// 关闭连接</span></span><br><span class="line">	connection.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 创建连接</span></span><br><span class="line">	Jedis connection = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">	connection.auth(<span class="string">"chase"</span>);</span><br><span class="line">	<span class="comment">// 执行连接</span></span><br><span class="line">	System.out.println(connection.get(<span class="string">"name"</span>));</span><br><span class="line">	<span class="comment">// 关闭连接</span></span><br><span class="line">	connection.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+### jedis连接池
+
+作用：
+* 限定最大连接，防止系统崩溃
+* 节约资源
+* 节约时间
+
+配置：
+* 最大连接数
+* 最小连接数
+* 最大等待时间
+* 测试连接是否畅通
+</code></pre>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+  
+</div>
+
+    </main>
+	<!-- 页面点击小红心 -->
+	<script type="text/javascript" src="/js/love.js"></script>
+
+    
+      
+<div class="site-comment-contanier" data-plateform="leancloud">
+  
+    <p id="site-comment-info">
+      <i class="fa fa-spinner fa-spin"></i> 评论加载中
+    </p>
+    <div id="site-comment"></div>
+  
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">博客推荐</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://me.csdn.net/dfgdgfbb/" target="_blank">最亲爱的师傅</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/cx776474961/" target="_blank">全栈工程师Orz</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> QQ: 1131497375
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/周记-一.html" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+  <script async>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+  </script>
+
+
+
+
+    
+  </body>
+</html>
