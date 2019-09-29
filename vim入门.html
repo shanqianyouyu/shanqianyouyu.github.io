@@ -7,12 +7,12 @@
   <meta name="author" content="Chase">
   
   
-  <title>如何在局域网访问虚拟机 | Chase</title>
+  <title>vim入门 | Chase</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="Linux相关,Linux,虚拟机,">
+    <meta name="keywords" content="Linux相关,Linux,">
   
 
   
@@ -167,7 +167,7 @@
   <div class="passage">
   <div class="passage-meta">
     <span>
-      <i class="fa fa-calendar"></i>2019-05-29
+      <i class="fa fa-calendar"></i>2019-09-29
     </span>
     
       <span>
@@ -181,55 +181,117 @@
     
   </div>
   <h1 class="passage-title">
-    如何在局域网访问虚拟机
+    vim入门
   </h1>
   
   <article class="passage-article">
     <blockquote>
-<p>最近在弄虚拟机，就想着如何在局域网访问虚拟机。搭在局域网，利用虚拟机就可以实现一个服务器，感觉很有意思，就弄了弄，写下来记录一下。</p>
+<p>早就听说Vim是宇宙第一编辑器，之前只会保存编辑，很多功能都不会，今天抽了点时间学了一下指令，记录一下。 </p>
 </blockquote>
-<p>环境</p>
-<blockquote>
-<p>虚拟机VM : Centos7(NAT模式)<br>宿主机 : win10</p>
-</blockquote>
-<h2 id="1-查看虚拟机ip"><a href="#1-查看虚拟机ip" class="headerlink" title="1.查看虚拟机ip"></a>1.查看虚拟机ip</h2><p>为了助于观看，无用的信息我删除了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost sbin]<span class="comment"># ifconfig</span></span><br><span class="line"></span><br><span class="line">ens33: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.74.226  netmask 255.255.255.0  broadcast 192.168.74.255</span><br><span class="line">        inet6 fe80::72b5:397c:3e0f:8a9f  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:0c:29:1d:01:22  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 4846  bytes 538314 (525.6 KiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 2791  bytes 1819310 (1.7 MiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure></p>
-<p>可以看到ip为<kbd>192.168.74.226</kbd></p>
-<h2 id="2-将虚拟机端口映射到宿主机端口"><a href="#2-将虚拟机端口映射到宿主机端口" class="headerlink" title="2. 将虚拟机端口映射到宿主机端口"></a>2. 将虚拟机端口映射到宿主机端口</h2><p>VM上: </p>
-<ol>
-<li>编辑 -&gt; 虚拟网络编辑器 -&gt; 更改设置(为了进入管理员权限) -&gt; 选中虚拟机(我的名称是 VMnet8 ) -&gt; NAT配置<br><img src="/img/如何在局域网访问虚拟机/nat配置.png" alt="nat配置"></li>
-<li>端口转发：添加 -&gt; 主机端口(1024以上)， 虚拟机IP，虚拟机端口(为了方便访问web项目，我填的是80) -&gt; 确认<br><img src="/img/如何在局域网访问虚拟机/端口配置.png" alt="端口配置"></li>
-</ol>
-<h2 id="3-宿主机配置"><a href="#3-宿主机配置" class="headerlink" title="3. 宿主机配置"></a>3. 宿主机配置</h2><ul>
-<li><ol>
-<li>进入高级安全 Windows Defender防火墙<br><img src="/img/如何在局域网访问虚拟机/宿主机端口配置.png" alt="宿主机端口配置"></li>
-</ol>
-</li>
-<li><ol start="2">
-<li>规则类型：选择端口，下一步</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>协议和端口：选择特定端口，依照步骤二 2 中，此处配置为<kbd>1300</kbd>，下一步</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>操作：选择允许连接，下一步</li>
-</ol>
-</li>
-<li><ol start="5">
-<li>配置文件： 全选，下一步</li>
-</ol>
-</li>
-<li><ol start="6">
-<li>名称：名称 – 局域网映射虚拟机(自己随便取拉，方便自己看就行了)，描述–自己写吧</li>
-</ol>
-</li>
-<li><ol start="7">
-<li>完成</li>
-</ol>
-</li>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="三种模式"><a href="#三种模式" class="headerlink" title="三种模式"></a>三种模式</h2><ol>
+<li>普通模式：Esc</li>
+<li>插入模式：i或者a或者c</li>
+<li>可视模式：<ul>
+<li>普通可视 v</li>
+<li>行可视 V</li>
+<li>块可视 ctrl+v</li>
 </ul>
-<h2 id="4-访问虚拟机对应端口的项目"><a href="#4-访问虚拟机对应端口的项目" class="headerlink" title="4. 访问虚拟机对应端口的项目"></a>4. 访问虚拟机对应端口的项目</h2><p>路径为：<kbd>宿主机ip:端口</kbd><br>依照上文配置: 宿主机ip:1300，你就可以在局域网访问试试了。</p>
+</li>
+</ol>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>普通模式下：</p>
+<ul>
+<li>h 左移</li>
+<li>j 下移</li>
+<li>k 上移</li>
+<li><p>l 右移</p>
+</li>
+<li><p>u 撤回</p>
+</li>
+<li>gg 回到行首</li>
+</ul>
+<h2 id="单词移动"><a href="#单词移动" class="headerlink" title="单词移动"></a>单词移动</h2><p>普通模式下：</p>
+<ul>
+<li>w     正向移动到下一单词的靠头</li>
+<li>b     反向移动到当前单词/上一单词的开头</li>
+<li>e     正向移动到当前单词/下一单词的结尾</li>
+<li>ge    反向移动到上一单词的结尾</li>
+</ul>
+<h2 id="字符移动"><a href="#字符移动" class="headerlink" title="字符移动"></a>字符移动</h2><p>f{char}     正向移到下一个{char}所在之处<br>F{char}     反向移到下一个{char}所在之处<br>t{char}     正向移到下一个{char}所在之处的前一个字符上<br>T{char}     反向移到下一个{char}所在之处的后一个字符上</p>
+<blockquote>
+<p>;     重复上次字符查找命令<br>,     反转方向查找上次字符的查找命令</p>
+</blockquote>
+<h2 id="文本对象"><a href="#文本对象" class="headerlink" title="文本对象"></a>文本对象</h2><blockquote>
+<p>i-in  a-around</p>
+</blockquote>
+<ul>
+<li>a) 或 ab      一对圆括号</li>
+<li>i) 或 ib      圆括号内部</li>
+<li>at            一对XML标签\&lt;xml>tags\&lt;\/xml></li>
+<li>it            xml标签内部</li>
+<li>iw            当前单词</li>
+<li>aw            当前单词加一个空格</li>
+<li>iW            当前字串</li>
+<li>aW            当前字串加一个空格</li>
+<li>is            当前句子</li>
+<li>as            当前句子及一个空格</li>
+<li>ip            当前段落</li>
+<li>ap            当前段落及一个空行</li>
+</ul>
+<h2 id="操作符待决模式"><a href="#操作符待决模式" class="headerlink" title="操作符待决模式"></a>操作符待决模式</h2><table>
+<thead>
+<tr>
+<th>d{motion}</th>
+<th>删除模式</th>
+<th>dd删除一行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>c{motion}</td>
+<td>修改模式</td>
+<td>cc删除一行</td>
+</tr>
+<tr>
+<td>y{motion}</td>
+<td>复制模式</td>
+<td>yy复制一行</td>
+</tr>
+<tr>
+<td>v{motion}</td>
+<td>可视模式</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h2><ul>
+<li>m{mark}   设置标记</li>
+<li>`{mark}   返回标记(esc下面的键位)</li>
+</ul>
+<h2 id="翻页"><a href="#翻页" class="headerlink" title="翻页"></a>翻页</h2><ul>
+<li>ctrl+f    下翻一页</li>
+<li>ctrl+b    上翻一页</li>
+<li>ctrl+d    下翻半页</li>
+<li>ctrl+u    上翻半页</li>
+</ul>
+<h2 id="查找与替换"><a href="#查找与替换" class="headerlink" title="查找与替换"></a>查找与替换</h2><table>
+<thead>
+<tr>
+<th>/{pattern}</th>
+<th>查找</th>
+<th>使用n跳转</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:%s/{pattern}/{string}/g</td>
+<td>替换</td>
+<td>使用c进行替换确认</td>
+</tr>
+</tbody>
+</table>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>这里配置只是为了文本好看，就没有搞花里胡哨的，或者添加别的功能。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vimrc</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> tabstop=4</span><br><span class="line"><span class="built_in">set</span> softtabstop=4</span><br><span class="line"><span class="built_in">set</span> shiftwidth=4</span><br><span class="line"><span class="built_in">set</span> autoindent</span><br><span class="line"><span class="built_in">set</span> cindent</span><br><span class="line"><span class="built_in">set</span> cinoptions=&#123;0,1s,t0,n-2,p2s,(03s,=.5s,&gt;1s,=1s,:1s</span><br><span class="line"><span class="built_in">set</span> nu</span><br><span class="line"><span class="built_in">set</span> ruler</span><br><span class="line"><span class="built_in">set</span> hlsearch</span><br><span class="line"><span class="built_in">set</span> backspace=2</span><br></pre></td></tr></table></figure>
 
   </article>
   <aside class="table-content" id="site-toc">
@@ -238,7 +300,7 @@
     <span>目录</span>
   </div>
   <div class="table-content-main">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-查看虚拟机ip"><span class="toc-text">1.查看虚拟机ip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-将虚拟机端口映射到宿主机端口"><span class="toc-text">2. 将虚拟机端口映射到宿主机端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-宿主机配置"><span class="toc-text">3. 宿主机配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-访问虚拟机对应端口的项目"><span class="toc-text">4. 访问虚拟机对应端口的项目</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三种模式"><span class="toc-text">三种模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单词移动"><span class="toc-text">单词移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符移动"><span class="toc-text">字符移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文本对象"><span class="toc-text">文本对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作符待决模式"><span class="toc-text">操作符待决模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标记"><span class="toc-text">标记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#翻页"><span class="toc-text">翻页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找与替换"><span class="toc-text">查找与替换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li></ol>
   </div>
 </aside>
   
@@ -246,8 +308,6 @@
     <div class="passage-tags">
      
       <a href="/tags/Linux/"><i class="fa fa-tags"></i>Linux</a>
-     
-      <a href="/tags/虚拟机/"><i class="fa fa-tags"></i>虚拟机</a>
     
     </div>
   
@@ -348,10 +408,10 @@
 
 <div class="bottom-bar">
   <div class="bottom-bar-left">
-    <a href="/Linux常用指令.html" data-enable="true">
+    <a href="javascript:void(0);" data-enable="false">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="/虚拟机Centos7上配置nginx.html" data-enable="true">
+    <a href="/从源码看AOP.html" data-enable="true">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
