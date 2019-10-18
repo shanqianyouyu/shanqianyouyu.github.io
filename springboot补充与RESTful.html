@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="K9Kc9nC902w9IT9WrD90X0j_JC-lo7h8zWfMcemjbAo">
+  <meta name="author" content="Chase">
+  
+  
+  <title>springboot补充与RESTful | Chase</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="JavaWeb,SpringBoot,Spring,">
+  
+
+  
+  <meta name="description" content="这里是Chase拉">
+
+  
+
+  
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  
+    <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"gQuuMEsq37q4DsnhTauYOsPc-gzGzoHsz","appkey":"PG39cJtCXneMhQDdmjIx9EqO","comment":true,"count":true},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2019-04-18",
+    passwords: ["18f9e58fdb6b216c32c36b180d460fb1c53fd88cb298cc12c8177c6229883091", ],
+    is_post: true,
+    lock: false,
+    author: "Chase",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">Chase</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 那些路上的脚印，永远不会被隐藏</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://shanqianyouyu.github.io/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-10-18
+    </span>
+    
+      <span>
+        | <a href="/categories/JavaWeb/"><i class="fa fa-bookmark"></i>JavaWeb</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    springboot补充与RESTful
+  </h1>
+  
+  <article class="passage-article">
+    <h1 id="一-RESTful"><a href="#一-RESTful" class="headerlink" title="一. RESTful"></a>一. RESTful</h1><ul>
+<li>REST是 Represemtational State Transfer 的缩写</li>
+<li>所有的东西都是资源，所有操作都是通过对资源的增删改查(CRUD)实现</li>
+<li>对资源的增删改查对应的URL的操作(POST, DELETE, PUT, GET)</li>
+<li>无状态的</li>
+</ul>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><ul>
+<li>URL: <a href="http://host/tvseries" target="_blank" rel="noopener">http://host/tvseries</a></li>
+<li>GET: /tvseries 获取电视剧列表</li>
+<li>POST: /tvseries 创建一个新电视剧</li>
+<li>GET：/tvseries/101 获取编号为101的电视剧信息</li>
+<li>PUT：/tvseries/101 修改编号为101的电视剧信息</li>
+<li>DELETE：/tvseries/101 删除编号为101的电视剧</li>
+<li>GET：/tvseries/101/characters 获取编号为101的电视剧的任务列表</li>
+</ul>
+<blockquote>
+<p>URL命名</p>
+<ul>
+<li>/资源名字</li>
+<li>/资源名称/{资源ID}}</li>
+<li>/资源名称/{资源ID}/子资源名称</li>
+<li>/资源名称/{资源ID}/子资源名称/{子资源ID}</li>
+</ul>
+</blockquote>
+<h2 id="开启热部署"><a href="#开启热部署" class="headerlink" title="开启热部署"></a>开启热部署</h2><ol>
+<li>导入依赖</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.<a href="https://blog.csdn.net/ligh_sqh/article/details/79500575" target="_blank" rel="noopener">开启idea自动编译</a></p>
+<h1 id="二-Bean-Validation"><a href="#二-Bean-Validation" class="headerlink" title="二. Bean Validation"></a>二. Bean Validation</h1><h2 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h2><table>
+<thead>
+<tr>
+<th>任何类型</th>
+<th>Null, NotNull</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>布尔型</td>
+<td>AssertTrue, AssertFalse</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>NotBlank, Pattern, Size, Email, DecimalMax, DecimalMin, Digits</td>
+</tr>
+<tr>
+<td>数值</td>
+<td>DecimalMax, DecimalMin, Digits, Max, Min, Negative, NegativeOrZero, Positive, Positive, PositiveOrZero</td>
+</tr>
+<tr>
+<td>集合/Map/List</td>
+<td>NotEmpty, Size</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>Future, Past, FutureOrPresent, PastOrPresent</td>
+</tr>
+</tbody>
+</table>
+<h2 id="注解位置"><a href="#注解位置" class="headerlink" title="注解位置"></a>注解位置</h2><ul>
+<li>Field level 成员变量</li>
+<li>Property level get(is) 方法上(验证返回值))</li>
+<li>Class level 类上</li>
+</ul>
+<blockquote>
+<p>约束规则对子类有效</p>
+</blockquote>
+<p>public Object doSomething(@Validated @RequestBody OneDto oneDto, <kbd>BindingResult result</kbd>){}</p>
+<p>加上 <kbd>BindingResult result</kbd> ，不通过校验也能进入方法</p>
+<h2 id="手动验证"><a href="#手动验证" class="headerlink" title="手动验证"></a>手动验证</h2><h1 id="三-SpringBoot-的单元测试"><a href="#三-SpringBoot-的单元测试" class="headerlink" title="三. SpringBoot 的单元测试"></a>三. SpringBoot 的单元测试</h1><h2 id="Junit"><a href="#Junit" class="headerlink" title="Junit"></a>Junit</h2><ul>
+<li>判断某条件是否为真 Assert.assertTrue(条件表达式)</li>
+<li>判断某条件是否为假 Assert.assertFalse(条件表达式))</li>
+<li>判断两个变量值是否相同 Assert.assertEquals(var1, var2)</li>
+<li>判断两个变量值是否不相同 Assert.assertNotEquals(var1, var2)</li>
+<li>判断两个数组是否相同 Assert.assertArrayEquals(数组1，数组2)</li>
+<li>直接测试失败 Assert.fail() Assert.fail(message)</li>
+</ul>
+<blockquote>
+<p>之前在看spring源码的过程中有很多这种东西，当时不懂是什么东西，才发现只是判断功能</p>
+</blockquote>
+<h2 id="mockito"><a href="#mockito" class="headerlink" title="mockito"></a>mockito</h2><p>实战再学习.</p>
+<h1 id="四-事务-Transactional"><a href="#四-事务-Transactional" class="headerlink" title="四. 事务 @Transactional"></a>四. 事务 @Transactional</h1><ul>
+<li>name          当在配置文件有多个TransactionManager，可以用该属性指定选择哪个事务管理器</li>
+<li>propagation   事务的传播行为，默认值为 REQUIRED<ul>
+<li>Propagation. REQUIRED        如果有事务，那么加入事务，没有则新建</li>
+<li>Propagation. NOT_SUPPORTED   容器不为这个方法开启事务</li>
+<li>Propagation. REQUIRES_NEWS   不管是否存在事务，都创建一个新的事务，原来的挂起，新的执行完毕继续执行老的事务</li>
+<li>Propagation. MANDATORY       必须在一个已有的事务中执行，否则抛出异常</li>
+<li>Propagation. NEVER           必须在一个没有事务中执行，否则抛出异常(与MANDATORY相反)</li>
+<li>Propagation. SUPPORTS        如果其他bean调用这个方法，在其他bean中声明事务，那就用事务. 如果其他bean没有声明事务那就不用事务</li>
+<li>Propagation. NESTED          如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED 类似的操作</li>
+</ul>
+</li>
+<li>isolation     事物的隔离度，默认值采用DEFAULT<ul>
+<li>isolation. READ_UNCOMMITTED  读取未提交数据</li>
+<li>isolation. READ_COMMITTED    读已提交数据</li>
+<li>isolation. REPEATABLE_READ   可重复读</li>
+<li>isolation. SERIALIZABLE      串行化</li>
+<li>isolation. DEFAULT           使用数据库默认</li>
+</ul>
+</li>
+<li>timeout       事务的超时时间，默认值为 -1 。如果超过该时间限制但事务还没有完成，则自动回滚事务</li>
+<li>readOnly      指定事务是否为只读事务，默认值为false; 为了忽略那些不需要事物的方法, 比如读取数据, 可以设置 readOnly 为 true</li>
+<li>rollbackFor   指定能够触发事务回滚的异常类型</li>
+<li>noRollbackFor 指定异常的类型，不回滚事务</li>
+</ul>
+<h2 id="isolation-与-lock"><a href="#isolation-与-lock" class="headerlink" title="isolation 与 lock"></a>isolation 与 lock</h2><ul>
+<li>两个不同的东西，隔离不是靠锁实现的，是靠对数据的监控实现的</li>
+<li>锁：表加好锁了，除非出现死锁等特殊情况，事务是不会被数据库主动回滚的</li>
+<li>隔离：如果发现数据不符合相应的事务隔离级别，当前事务会出错并回滚。相比锁被回滚可能较大，需要程序有出错重试的步骤</li>
+</ul>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-RESTful"><span class="toc-text">一. RESTful</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启热部署"><span class="toc-text">开启热部署</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二-Bean-Validation"><span class="toc-text">二. Bean Validation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用注解"><span class="toc-text">常用注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注解位置"><span class="toc-text">注解位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手动验证"><span class="toc-text">手动验证</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三-SpringBoot-的单元测试"><span class="toc-text">三. SpringBoot 的单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit"><span class="toc-text">Junit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mockito"><span class="toc-text">mockito</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四-事务-Transactional"><span class="toc-text">四. 事务 @Transactional</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#isolation-与-lock"><span class="toc-text">isolation 与 lock</span></a></li></ol></li></ol>
+  </div>
+</aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/SpringBoot/"><i class="fa fa-tags"></i>SpringBoot</a>
+     
+      <a href="/tags/Spring/"><i class="fa fa-tags"></i>Spring</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+	<!-- 页面点击小红心 -->
+	<script type="text/javascript" src="/js/love.js"></script>
+
+    
+      
+<div class="site-comment-contanier" data-plateform="leancloud">
+  
+    <p id="site-comment-info">
+      <i class="fa fa-spinner fa-spin"></i> 评论加载中
+    </p>
+    <div id="site-comment"></div>
+  
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      
+        <div class="site-footer-col">
+          <h5 class="site-footer-title">博客推荐</h5>
+          
+            <span class="site-footer-item">
+              <a href="https://me.csdn.net/dfgdgfbb/" target="_blank">最亲爱的师傅</a>
+            </span>
+          
+            <span class="site-footer-item">
+              <a href="https://blog.csdn.net/cx776474961/" target="_blank">全栈工程师Orz</a>
+            </span>
+          
+        </div>
+      
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> QQ: 1131497375
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/聊聊spring配置与ssm实现内置tomcat.html" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+  <script async>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+  </script>
+
+
+
+
+    
+  </body>
+</html>
